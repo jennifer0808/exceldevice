@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="lib/layui/css/layui.css">
+    <link rel="stylesheet" href="lib/layui/css/layui.css" th:href="@{/lib/layui/css/layui.css}">
 </head>
 <body>
 <div style="margin-top: 17px;margin-left: 110px;">
-    <span>device搜索：</span><input type="text" style="height: 27px;width: 220px;" id="sear1" placeholder="请输入device进行模糊查询"/>
-<!--    <button type="button" class="layui-btn" id="importFile" shiro:hasAnyRoles="root,resourceManager"><i-->
-<!--            class="layui-icon"></i>导入-->
-<!--    </button>-->
+    <span>device搜索：</span><input type="text" style="height: 27px;width: 220px;" id="sear1"
+                                 placeholder="请输入device进行模糊查询"/>
+    <!--    <button type="button" class="layui-btn" id="importFile" shiro:hasAnyRoles="root,resourceManager"><i-->
+    <!--            class="layui-icon"></i>导入-->
+    <!--    </button>-->
 </div>
 
 <div class="layui-card-body">
@@ -25,8 +26,8 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<script src="js/jquery.min.js"></script>
-<script src="lib/layui/layui.js"></script>
+<script src="js/jquery.min.js"  th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="lib/layui/layui.js" th:src="@{/lib/layui/layui.js}"></script>
 
 <script>
 
@@ -48,13 +49,22 @@
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}
-                    , {field: 'sId', width: 80, title: 'ID', fixed: 'left'}
-                    , {field: 'sUsername', width: 80, title: '用户名'}
-                    , {field: 'sPassword', width: 80, title: '密码'}
-                    , {field: 'sClass', width: 80, title: '班级'}
-                    , {field: 'sMajor', title: '专业'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                    , {field: 'sSex', title: '性别', sort: true}
-                    , {field: 'createTime', title: '创建日期'}
+                    , {field: 'id', width: 80, title: 'ID', fixed: 'left'}
+                    , {field: 'project_id', width: 80, title: '项目id'}
+                    , {field: 'stastion_id', width: 80, title: '站点id'}
+                    , {field: 'drive_id', width: 80, title: '驱动id'}
+                    , {field: 'link_id', title: '链路id'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    , {field: 'name', title: '名字'}
+                    , {field: 'describe', title: '描述'}
+                    , {field: 'address', title: '设备地址'}
+                    , {field: 'start_period', title: '开始上网周期'}
+                    , {field: 'overtime_period', title: '超时周期'}
+                    , {field: 'device_type_name', title: '设备类型名称'}
+                    , {field: 'protocol_name', title: '驱动名称驱动名表tbl_protocol的name'}
+                    , {field: 'shsz_id', title: '上海市政协议电表id'}
+                    , {field: 'category_id', title: '分类项表id'}
+                    , {field: 'is_virtual', title: '是否虚拟表0否1是'}
+                    , {field: 'is_highgather', title: 'is_highgather'}
                     , {fixed: 'right', width: 165, align: 'center', title: '操作', toolbar: '#barDemo'}
 
                 ]
@@ -75,8 +85,8 @@
         }
     });
 
-    function uploadData(){
-        var  upload = layui.upload;
+    function uploadData() {
+        var upload = layui.upload;
         //上传
         upload.render({
             elem: '#test3'

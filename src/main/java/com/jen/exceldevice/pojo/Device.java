@@ -18,7 +18,30 @@ public class Device {
     private int category_id;
     private int is_virtual;
     private int is_highgather;
+
     private int parent_id = 0;
+
+    public  Device(){}
+
+    public Device(int id, int project_id, int stastion_id, int drive_id, int link_id, String name, String describe, String address, int start_period, int overtime_period, String device_type_name, String protocol_name, String shsz_id, int category_id, int is_virtual, int is_highgather, int parent_id) {
+        this.id = id;
+        this.project_id = project_id;
+        this.stastion_id = stastion_id;
+        this.drive_id = drive_id;
+        this.link_id = link_id;
+        this.name = name;
+        this.describe = describe;
+        this.address = address;
+        this.start_period = start_period;
+        this.overtime_period = overtime_period;
+        this.device_type_name = device_type_name;
+        this.protocol_name = protocol_name;
+        this.shsz_id = shsz_id;
+        this.category_id = category_id;
+        this.is_virtual = is_virtual;
+        this.is_highgather = is_highgather;
+        this.parent_id = parent_id;
+    }
 
     public int getParent_id() {
         return parent_id;

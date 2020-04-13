@@ -7,10 +7,8 @@ import java.util.List;
 
 public interface DeviceService {
 
-    public List<Device> getDeviceList();
 
-    public List<Device> getDeviceListBy(Device device);
+    List<Device>  findByPage(int page, int limit, String sUsername);
 
-    public void updateDeviceIsHigh(Device device);
-
+    int queryCount();
 }

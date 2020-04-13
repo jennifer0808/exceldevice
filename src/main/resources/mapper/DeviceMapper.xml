@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jen.exceldevice.mapper.DeviceMapper">
+<!--    <resultMap id="DeviceList" type="Device">-->
+<!--        <id column="id" jdbcType="VARCHAR" property="sId"/>-->
+<!--        <result column="s_username" jdbcType="VARCHAR" property="sUsername"/>-->
+<!--        <result column="s_password" jdbcType="VARCHAR" property="sPassword"/>-->
+<!--        <result column="s_class" jdbcType="VARCHAR" property="sClass"/>-->
+<!--        <result column="s_major" jdbcType="VARCHAR" property="sMajor"/>-->
+<!--        <result column="s_sex" jdbcType="CHAR" property="sSex"/>-->
+<!--        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>-->
+<!--    </resultMap>-->
+
+    <!--describe -->
+    <sql id="Base_Column_List">
+        id,project_id,stastion_id,drive_id,link_id,name,'describe',address,start_period,overtime_period,device_type_name,protocol_name,shsz_id,category_id,is_virtual,is_highgather
+    </sql>
+
+    <!--分页查询-->
+    <select id="selectByPage"  resultType="com.jen.exceldevice.pojo.Device">
+        select
+        <include refid="Base_Column_List"/>
+          from tbl_device where
+        <if test='keyWord!="" or keyWord!=null'>
+            name LIKE '%${keyWord}%'
+        </if>
+        <if test="page!=null and limit!=null">
+            limit #{page},#{limit}
+        </if>
+
+    </select>
+
+    <!--查询总数-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(*) from student where state=0
+
+    </select>
+
+
+</mapper>
