@@ -1,0 +1,51 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /canneng
+
+spring:
+  datasource:
+    name: test
+    url: jdbc:mysql://localhost:3306/dpc
+    username: root
+    password: root
+    # ʹ��druid����Դ
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: utf-8
+    mode: HTML
+    servlet:
+      content-type: text/html
+    check-template-location: false
+
+  mvc:
+    static-path-pattern: /**
+  activemq:
+    broker-url:
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.jen.exceldevice.pojo
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

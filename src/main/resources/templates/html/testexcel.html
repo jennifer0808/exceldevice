@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="lib/layui/css/layui.css">
+</head>
+<body>
+<div style="margin-top: 17px;margin-left: 110px;">
+    <span>device搜索：</span><input type="text" style="height: 27px;width: 220px;" id="sear1" placeholder="请输入device进行模糊查询"/>
+<!--    <button type="button" class="layui-btn" id="importFile" shiro:hasAnyRoles="root,resourceManager"><i-->
+<!--            class="layui-icon"></i>导入-->
+<!--    </button>-->
+</div>
+
+<div class="layui-card-body">
+    <table class="layui-hide" id="test"></table>
+    <script type="text/html" id="toolbarDemo">
+        <a href="${pageContext.request.contextPath}/export" th:href="@{/export}" class="layui-btn">导出</a>
+        <button type="button" class="layui-btn" id="test3">导入</button>
+    </script>
+</div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script src="js/jquery.min.js"></script>
+<script src="lib/layui/layui.js"></script>
+
+<script>
+
+
+    layui.use(['upload', 'table'], function () {
+        var kw = '';
+        addData(kw);
+        uploadData();
+
+
+    });
+
+    function addData(kwx) {
+        var table = layui.table;
+        table.render({
+            elem: '#test'
+            , url: '../../showData?keyWord=' + kwx
+            , limit: 11 //默认为10
+            , cols: [
+                [
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'sId', width: 80, title: 'ID', fixed: 'left'}
+                    , {field: 'sUsername', width: 80, title: '用户名'}
+                    , {field: 'sPassword', width: 80, title: '密码'}
+                    , {field: 'sClass', width: 80, title: '班级'}
+                    , {field: 'sMajor', title: '专业'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    , {field: 'sSex', title: '性别', sort: true}
+                    , {field: 'createTime', title: '创建日期'}
+                    , {fixed: 'right', width: 165, align: 'center', title: '操作', toolbar: '#barDemo'}
+
+                ]
+            ]
+            , page: true
+            , toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            , totalRow: true //开启合计行
+            , done: function (res, curr, count) {
+                //数据的回调用，可不写
+            }
+        });
+    }
+
+    $("#sear1").keyup(function (event) {
+        if (event.keyCode == 13) {
+            var keyWord = $("#sear1").val();
+            addData(keyWord);
+        }
+    });
+
+    function uploadData(){
+        var  upload = layui.upload;
+        //上传
+        upload.render({
+            elem: '#test3'
+            , url: '/readExcel'
+            , accept: 'file' //普通文件
+            , exts: 'xls|xlsx' //允许上传的文件后缀
+            , multiple: true
+            , done: function (res) {
+                layer.msg(res.msg);
+                alert(res.msg);
+                location.reload();
+            }
+        });
+    }
+
+    //分页
+    // laypage.render({
+    //     elem: 'pageDemo' //分页容器的id
+    //     ,count: 20 //数据总数，从服务端得到
+    //     ,skin: '#1E9FFF' //自定义选中色值
+    //     ,prev:'<span></span>'
+    //     ,next:'<span></span>'
+    //     ,layout:['count','prev','page','next','limit','skip']
+    //     ,jump: function(obj, first){
+    //         //obj包含了当前分页的所有参数，比如：
+    //         console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+    //         console.log(obj.limit); //得到每页显示的条数
+    //
+    //         //首次不执行
+    //         if(!first){
+    //             layer.msg('第'+ obj.curr +'页', {offset: 'b'});
+    //         }
+    //     }
+    // });
+</script>
+</body>
+</html>
