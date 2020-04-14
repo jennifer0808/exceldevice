@@ -1,6 +1,5 @@
 package com.jen.exceldevice.dao;
 
-import com.jen.exceldevice.pojo.Device;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;

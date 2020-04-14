@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Service("DeviceService")
+@Service("deviceService")
 public class DeviceServiceImpl implements DeviceService {
     private final static Logger logger = LoggerFactory.getLogger(DeviceServiceImpl.class);
 

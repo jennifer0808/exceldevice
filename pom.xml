@@ -85,6 +85,18 @@
             <version>1.2.31</version>
         </dependency>
 
+        <!-- xls格式excel依赖包 必须与xlsx依赖版本号一致 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <!--xlsx格式excel依赖包 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
 
 
 
