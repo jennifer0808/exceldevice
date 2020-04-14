@@ -1,7 +1,12 @@
 package com.jen.exceldevice.service;
 
-import java.util.List;
+import com.jen.exceldevice.pojo.Stastion;
+
 
 public interface StastionService {
-    int getStastionListById(int id);
+    int getStastionListBy(Stastion stastion);
+
+    int insertStastion(Stastion stastion);
+
+    int updateStasttion(Stastion stastion);
 }

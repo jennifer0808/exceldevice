@@ -36,20 +36,16 @@ public class LinkServiceImpl implements LinkService {
     public boolean readExcel(String fileName, MultipartFile file) throws IOException {
         boolean notNull = false;
         List<Link> linkList = new ArrayList<>();
-        //识别文件格式
 
+        //识别文件格式
         if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
-//            throw new MyException(110, "上传文件格式不正确");
             logger.info("上传文件格式不正确");
         }
-
         boolean isExcel2003 = true;
         if (fileName.matches("^.+\\.(?i)(xlsx)$")) {
             isExcel2003 = false;
         }
         //读取Excel文件
-
-
         InputStream inputStream = file.getInputStream();
         Workbook workbook = null;
         if (isExcel2003) {
@@ -59,7 +55,6 @@ public class LinkServiceImpl implements LinkService {
             workbook = new XSSFWorkbook(inputStream);
             inputStream.close();
         }
-
         //循环工作表
         Sheet sheet = null;
         String cell = null;
@@ -74,31 +69,34 @@ public class LinkServiceImpl implements LinkService {
             }
 
         }
-
         return notNull;
     }
 
+
+
     //导入sheet1
     public void readExcelSheet(Sheet sheet) {
-
         Project project = ReadExcelUtils.readProject(sheet.getRow(0));
         List<Project> projectList = projectService.getProjectListBy(project);
-        int project_id = 0;
+        int project_id = -1;
         if (projectList.size() != 0) {
              project_id = projectList.get(0).getId();
         }
+        //站点信息导入
         List<Stastion> stastionList = ReadExcelUtils.readStastion(sheet.getRow(1));
-
-        int count = stastionService.getStastionListById(project_id);
-        if(count ==0){
-            //查询是否存在,1存在,0不存在
-            System.err.println(" insertStastion();");
-
-        }else{
-            System.err.println(" updateStastion();");
+        for(Stastion stastion:stastionList){
+            stastion.setProject_id(project_id);
+            int count=stastionService.getStastionListBy(stastion);
+            System.err.println("count:"+count);
+            if(count ==0){
+                stastionService.insertStastion(stastion);
+                System.err.println(" insertStastion();");
+            }else{
+                stastionService.updateStasttion(stastion);
+                System.err.println(" updateStastion();");
+            }
         }
-
-
+        //驱动信息导入
         List<Drive> driveList = ReadExcelUtils.readDrive(sheet.getRow(2));
 
     }
