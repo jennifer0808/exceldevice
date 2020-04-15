@@ -21,6 +21,19 @@
             <if test="name!= null">
                 AND name = #{name,jdbcType=VARCHAR}
             </if>
+
+            <if test="ipaddress!= null">
+                AND ipaddress = #{ipaddress,jdbcType=VARCHAR}
+            </if>
+            <if test="port!= 0">
+                AND port = #{port,jdbcType=INTEGER}
+            </if>
+            <if test="portid!= null">
+                AND portid = #{portid,jdbcType=VARCHAR}
+            </if>
+            <if test="type!= 0">
+                AND type = #{type,jdbcType=INTEGER}
+            </if>
         </where>
     </select>
 

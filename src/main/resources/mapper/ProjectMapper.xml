@@ -18,8 +18,8 @@
 	</select>
 
 <insert id="insertProject" parameterType="com.jen.exceldevice.pojo.Project">
-	insert into project (id,name)
-	values(#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+	insert into project (name)
+	values(#{name,jdbcType=VARCHAR})
 </insert>
 
 

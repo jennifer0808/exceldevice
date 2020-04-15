@@ -111,14 +111,14 @@ public class DeviceController {
     @RequestMapping("readExcel")
     @ResponseBody
     public Map readExcel(@RequestParam MultipartFile file) {
-        boolean a = false;
+        boolean isSuccess = false;
         String fileName = file.getOriginalFilename();
         logger.info("fileName:" + fileName);
         Map map = new HashMap();
         try {
-            a = linkService.readExcel(fileName, file);
+            isSuccess = linkService.readExcel(fileName, file);
 
-            if (a) {
+            if (isSuccess) {
                 map.put("code", 0);
                 map.put("msg", "导入EXCEL成功！");
                 return map;

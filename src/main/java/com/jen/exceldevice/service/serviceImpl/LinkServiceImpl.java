@@ -56,7 +56,6 @@ public class LinkServiceImpl implements LinkService {
     public boolean readExcel(String fileName, MultipartFile file) throws IOException {
         boolean notNull = false;
         List<Link> linkList = new ArrayList<>();
-
         //识别文件格式
         if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
             logger.info("上传文件格式不正确");
@@ -77,15 +76,19 @@ public class LinkServiceImpl implements LinkService {
         }
         //循环工作表
         Sheet sheet = null;
-        String cell = null;
         for (int i = 0; i < workbook.getNumberOfSheets(); i++) {//获取每个Sheet表
             sheet = workbook.getSheetAt(i);
             System.out.println("sheet:" + sheet);
             if (sheet != null) {
                 notNull = true;
             }
+
             if (i == 0) {//sheet1
-                readExcelSheet(sheet);
+                readExcelSheet1(sheet);
+            }else if(i == 1){//sheet2
+                readExcelSheet2(sheet);
+            }else if(i == 2){//sheet3
+                readExcelSheet3(sheet);
             }
 
         }
@@ -93,66 +96,85 @@ public class LinkServiceImpl implements LinkService {
     }
 
 
+
     //导入sheet1
-    public void readExcelSheet(Sheet sheet) {
-
-        List<Stastion> stastion_idList = new ArrayList<>();
-        List<Drive> drive_idList = new ArrayList<>();
-        List<Link> link_idList = new ArrayList<>();
-
+    public void readExcelSheet1(Sheet sheet) {
         //项目信息导入
+       int project_id =  readProjectData(sheet);
+        //站点信息导入
+        readStastionData(sheet,project_id);
+        //驱动信息导入
+        readDriveData(sheet,project_id);
+        //链路信息导入
+        readLinkData(sheet,project_id);
+    }
+
+
+    //导入sheet2
+    public void readExcelSheet2(Sheet sheet) {
+
+    }
+
+    //导入sheet3
+    public void readExcelSheet3(Sheet sheet) {
+
+    }
+
+
+
+    //项目信息导入
+    public int readProjectData(Sheet sheet){
         Project project = ReadExcelUtils.readProject(sheet.getRow(0));
         List<Project> projectList = projectService.getProjectListBy(project);
-        int project_id = -1;
-        if (projectList.size() != 0) {
-            project_id = projectList.get(0).getId();
+        int project_id = 0;
+        if (projectList.size() == 0) {
+            projectService.insertProject(project);
         }
+        project_id = projectService.getProjectListBy(project).get(0).getId();
+        System.out.println("readProjectData()-project_id:"+project_id);
+        return  project_id;
+    }
 
-        //站点信息导入
-        List<Stastion> stastionList = ReadExcelUtils.readStastion(sheet.getRow(1));
-        for (Stastion stastion : stastionList) {
-            stastion.setProject_id(project_id);
+    //站点信息导入
+    public void readStastionData(Sheet sheet,int project_id){
+        List<String> stastionListAll = ReadExcelUtils.readCellByRow(sheet.getRow(1));
+        for(String satastionName:stastionListAll){
+            Stastion stastion = new Stastion(project_id,satastionName);
             List<Stastion> stastions = stastionService.getStastionList(stastion);
             if (stastions.size() == 0) {//插入
                 stastionService.insertStastion(stastion);
             }
-            //测试
-            List<Stastion> stastionstest = stastionService.getStastionList(stastion);
-            for (Stastion s : stastionstest) {
-                Stastion sta = new Stastion(s.getId(), project_id, s.getName());
-                stastion_idList.add(sta);
-            }
-        }
-        System.out.println(stastion_idList);
 
-        //驱动信息导入
-        Map<String, Drive> driveMap = ReadExcelUtils.readDrive(sheet.getRow(2));
-        for (String stastionName : driveMap.keySet()) {
+        }
+    }
+
+    //驱动信息导入
+    public void  readDriveData(Sheet sheet,int project_id){
+        List<String> driveListALl = ReadExcelUtils.readCellByRow(sheet.getRow(2));
+        for(String strByCell:driveListALl){
+            String stastionName = strByCell.split(":")[0].trim();
+            String driveName = strByCell.split(":")[1].trim();
             Stastion stastion = new Stastion(project_id, stastionName);
             List<Stastion> stastions = stastionService.getStastionList(stastion);
             if (stastions != null) {
                 for (Stastion stastion1 : stastions) {
-                    Drive drive = new Drive(stastion1.getProject_id(), stastion1.getId(), driveMap.get(stastionName).getProtocol_name());
-                    List<Drive> driveList = driveService.getDriveList(drive);
-                    if (driveList.size() == 0) {//插入
+                    Drive drive = new Drive(stastion1.getProject_id(), stastion1.getId(),driveName);
+                    List<Drive> driveListBy = driveService.getDriveList(drive);
+                    if (driveListBy.size() == 0) {//插入
                         driveService.insertDrive(drive);
                     }
                     //测试
                     List<Drive> driveListtest = driveService.getDriveList(drive);
-                    for (Drive d : driveListtest) {
-                        Drive dri = new Drive(d.getId(), d.getProject_id(), d.getStastion_id(), d.getProtocol_name());
-                        drive_idList.add(dri);
-                    }
-
                 }
             }
         }
-        System.out.println(drive_idList);
+    }
 
+    //链路信息导入
+    public void readLinkData(Sheet sheet,int project_id){
+        List<String> linkNameList = ReadExcelUtils.readCellByRow(sheet.getRow(3));
+        List<String> linkIPList = ReadExcelUtils.readCellByRow(sheet.getRow(4));
 
-        //链路信息_name导入
-        List<String> linkNameList = ReadExcelUtils.readLink(sheet.getRow(3));
-        List<String> linkIPList = ReadExcelUtils.readLink(sheet.getRow(4));
         Boolean flag = false;
         String linkIP =null;
         String linkPortId =null;
@@ -167,11 +189,11 @@ public class LinkServiceImpl implements LinkService {
             String linkIPStr = linkIPList.get(i);
             if(linkIPStr.contains(".")){
                 flag = true;
-                 linkIP = linkIPStr.split(":")[0].trim();
+                linkIP = linkIPStr.split(":")[0].trim();
                 String linkPortStr = linkIPStr.split(":")[1].trim();
-                 linkPort = Integer.valueOf(linkPortStr);
+                linkPort = Integer.valueOf(linkPortStr);
             }else{
-                 linkPortId =linkIPStr.trim();
+                linkPortId =linkIPStr.trim();
             }
             Stastion stastion = new Stastion(project_id, stastionName);
             List<Stastion> stastions = stastionService.getStastionList(stastion);
@@ -197,27 +219,14 @@ public class LinkServiceImpl implements LinkService {
                                     link.setPortid(linkPortId);
                                 }
                                 linkService.insertLink(link);
-                                System.err.println("insertLink");
                             }
 
-                            //测试
-                            List<Link> linkListtest = linkService.getLinkList(link);
-                                for(Link l :linkListtest){
-                                    Link lin = new Link(l.getId(),l.getProject_id(),l.getStastion_id(),l.getName());
-                                    link_idList.add(lin);
-                                }
                         }
                     }
-
                 }
             }
-
         }
 
-        System.out.println(link_idList);
-
-
     }
-
 
 }
