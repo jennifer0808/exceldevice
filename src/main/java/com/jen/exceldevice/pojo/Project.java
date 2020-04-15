@@ -22,6 +22,10 @@ public class Project implements Serializable {
         this.port = port;
     }
 
+    public Project(String name) {
+        this.name = name;
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

@@ -11,6 +11,8 @@ import com.jen.exceldevice.service.ProjectService;
 import com.jen.exceldevice.service.StastionService;
 import com.jen.exceldevice.utils.ReadExcelUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -112,6 +114,18 @@ public class LinkServiceImpl implements LinkService {
 
     //导入sheet2
     public void readExcelSheet2(Sheet sheet) {
+        //读取Excel项目信息
+        Row row = sheet.getRow(0);
+        Cell cell = row.getCell(0);
+        String projectName  = cell.getStringCellValue();
+        int project_id =  projectService.getProjectListBy(new Project(projectName)).get(0).getId();
+
+
+
+
+
+
+
 
     }
 
