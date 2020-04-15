@@ -1,39 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LinkMapper">
 
-<mapper namespace="com.jen.exceldevice.mapper.LinkMapper">
-        <resultMap id="BaseResultMap" type="Link">
-            <id column="id" jdbcType="INTEGER" property="id"/>
-            <result column="project_id" jdbcType="INTEGER" property="project_id"/>
-            <result column="stastion_id" jdbcType="INTEGER" property="stastion_id"/>
-            <result column="drive_id" jdbcType="INTEGER" property="drive_id"/>
-            <result column="name" jdbcType="VARCHAR" property="name"/>
-            <result column="describe" jdbcType="VARCHAR" property="describe"/>
-            <result column="ipaddress" jdbcType="VARCHAR" property="ipaddress"/>
+    <select id="getLinkList" resultType="com.jen.exceldevice.pojo.Link" parameterType="com.jen.exceldevice.pojo.Link">
+        select * from tbl_link
+        <where>
+            <if test="project_id!= 0">
+                AND project_id = #{project_id,jdbcType=INTEGER}
+            </if>
 
-        </resultMap>
+            <if test="stastion_id!= 0">
+                AND stastion_id = #{stastion_id,jdbcType=INTEGER}
+            </if>
+            <if test="drive_id!= 0">
+                AND drive_id = #{drive_id,jdbcType=INTEGER}
+            </if>
 
-
-
-<!--    &lt;!&ndash;分页查询&ndash;&gt;-->
-<!--    <select id="selectByPage"  resultType="com.jen.exceldevice.pojo.Device">-->
-<!--        select-->
-<!--        <include refid="Base_Column_List"/>-->
-<!--        from tbl_device where-->
-<!--        <if test='keyWord!="" or keyWord!=null'>-->
-<!--            name LIKE '%${keyWord}%'-->
-<!--        </if>-->
-<!--        <if test="page!=null and limit!=null">-->
-<!--            limit #{page},#{limit}-->
-<!--        </if>-->
-
-<!--    </select>-->
-
-    <!--查询总数-->
-    <select id="selectCount" resultType="java.lang.Integer">
-        select count(*) from student where state=0
-
+            <if test="name!= null">
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+        </where>
     </select>
+
+
+
+
+    <insert id="insertLink" parameterType="com.jen.exceldevice.pojo.Link">
+        insert into tbl_link
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="project_id != 0">
+                project_id,
+            </if>
+            <if test="stastion_id != 0">
+                stastion_id,
+            </if>
+            <if test="drive_id != 0">
+                drive_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="ipaddress != null">
+                ipaddress,
+            </if>
+            <if test="port != 0">
+                port,
+            </if>
+            <if test="portid != null">
+                portid,
+            </if>
+
+                type
+
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="project_id != 0">
+                #{project_id,jdbcType=INTEGER},
+            </if>
+            <if test="stastion_id != 0">
+                #{stastion_id,jdbcType=INTEGER},
+            </if>
+            <if test="drive_id != 0 ">
+                #{drive_id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null ">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="ipaddress != null">
+                #{ipaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="port != 0">
+                #{port,jdbcType=INTEGER},
+            </if>
+            <if test="portid != null">
+                #{portid,jdbcType=VARCHAR},
+            </if>
+
+
+                #{type,jdbcType=INTEGER}
+
+        </trim>
+
+    </insert>
+
+
 
 
 </mapper>

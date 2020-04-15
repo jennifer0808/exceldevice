@@ -17,6 +17,18 @@ public class Link implements Serializable {
     private Integer type;
 
     public Link(){}
+
+    public Link(String name) {
+        this.name = name;
+    }
+
+    public Link(Integer project_id, Integer stastion_id, Integer drive_id, String name) {
+        this.project_id = project_id;
+        this.stastion_id = stastion_id;
+        this.drive_id = drive_id;
+        this.name = name;
+    }
+
     public Link(Integer id, Integer project_id, Integer stastion_id, Integer drive_id, String name, String describe, String ipaddress, Integer port, String portid, Integer type) {
 
         this.id = id;

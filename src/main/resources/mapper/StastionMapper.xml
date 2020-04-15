@@ -13,6 +13,18 @@
 				AND project_id = #{project_id,jdbcType=INTEGER}
 			</if>
 			<if test="name!= null">
+				AND name = #{name,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+	<select id="getStastionList" resultType="com.jen.exceldevice.pojo.Stastion" parameterType="com.jen.exceldevice.pojo.Stastion">
+		select * from tbl_stastion
+		<where>
+			<if test="project_id!= 0">
+				AND project_id = #{project_id,jdbcType=INTEGER}
+			</if>
+			<if test="name!= null">
 				AND name = #{name,jdbcType=INTEGER}
 			</if>
 		</where>
@@ -23,6 +35,16 @@
 	values(#{project_id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
 </insert>
 
+
+	<update id="updateStasttion" parameterType="com.jen.exceldevice.pojo.Stastion">
+		update tbl_stastion
+		<set>
+			<if test="name != null">
+				m_password = #{name,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER} and  project_id = #{project_id,jdbcType=INTEGER}
+	</update>
 
 
 

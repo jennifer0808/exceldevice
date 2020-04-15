@@ -1,7 +1,6 @@
 package com.jen.exceldevice.service.serviceImpl;
 
 
-import com.jen.exceldevice.dao.BaseDao;
 import com.jen.exceldevice.mapper.DeviceMapper;
 import com.jen.exceldevice.pojo.Device;
 import com.jen.exceldevice.service.DeviceService;

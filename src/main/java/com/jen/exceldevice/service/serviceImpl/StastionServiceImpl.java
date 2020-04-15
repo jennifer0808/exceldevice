@@ -6,6 +6,8 @@ import com.jen.exceldevice.service.StastionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service("stastionService")
 public class StastionServiceImpl implements StastionService {
@@ -19,6 +21,11 @@ public class StastionServiceImpl implements StastionService {
         int count =0;
         count = baseDao.save("StastionMapper.getStastionListBy",stastion);
         return count;
+    }
+
+    @Override
+    public List<Stastion> getStastionList(Stastion stastion) {
+        return baseDao.getList("StastionMapper.getStastionList",stastion);
     }
 
     @Override

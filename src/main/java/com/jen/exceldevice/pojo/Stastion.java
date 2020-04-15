@@ -13,6 +13,22 @@ public class Stastion implements Serializable {
     private Integer port;
 
     public Stastion(){}
+
+    public Stastion(String name) {
+        this.name = name;
+    }
+
+    public Stastion(Integer project_id, String name) {
+        this.project_id = project_id;
+        this.name = name;
+    }
+
+    public Stastion(Integer id, Integer project_id, String name) {
+        this.id = id;
+        this.project_id = project_id;
+        this.name = name;
+    }
+
     public Stastion(Integer id, Integer project_id, String name, String describe, Integer number, String ipaddress, Integer port) {
         this.id = id;
         this.project_id = project_id;

@@ -10,6 +10,17 @@ public class Drive implements Serializable {
     private String protocol_name;
 
     public Drive(){}
+
+    public Drive(String protocol_name) {
+        this.protocol_name = protocol_name;
+    }
+
+    public Drive(Integer project_id, Integer stastion_id, String protocol_name) {
+        this.project_id = project_id;
+        this.stastion_id = stastion_id;
+        this.protocol_name = protocol_name;
+    }
+
     public Drive(Integer id, Integer project_id, Integer stastion_id, String protocol_name) {
 
         this.id = id;
