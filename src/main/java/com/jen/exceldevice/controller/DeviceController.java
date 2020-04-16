@@ -1,11 +1,11 @@
 package com.jen.exceldevice.controller;
 
+import com.jen.exceldevice.common.globalConfig.GlobalConstants;
 import com.jen.exceldevice.pojo.Device;
 import com.jen.exceldevice.service.DeviceService;
 import com.jen.exceldevice.service.LinkService;
 import com.jen.exceldevice.service.ProjectService;
 import com.jen.exceldevice.utils.WriteExcelUtils;
-import org.apache.logging.slf4j.Log4jLogger;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -111,14 +110,14 @@ public class DeviceController {
     @RequestMapping("readExcel")
     @ResponseBody
     public Map readExcel(@RequestParam MultipartFile file) {
-        boolean isSuccess = false;
+
         String fileName = file.getOriginalFilename();
         logger.info("fileName:" + fileName);
         Map map = new HashMap();
         try {
-            isSuccess = linkService.readExcel(fileName, file);
+            GlobalConstants.isImportSuccess = linkService.readExcel(fileName, file);
 
-            if (isSuccess) {
+            if (GlobalConstants.isImportSuccess) {
                 map.put("code", 0);
                 map.put("msg", "导入EXCEL成功！");
                 return map;

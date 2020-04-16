@@ -1,5 +1,6 @@
 package com.jen.exceldevice.service.serviceImpl;
 
+import com.jen.exceldevice.common.globalConfig.GlobalConstants;
 import com.jen.exceldevice.dao.BaseDao;
 import com.jen.exceldevice.pojo.Drive;
 import com.jen.exceldevice.pojo.Link;
@@ -189,7 +190,6 @@ public class LinkServiceImpl implements LinkService {
         List<String> linkNameList = ReadExcelUtils.readCellByRow(sheet.getRow(3));
         List<String> linkIPList = ReadExcelUtils.readCellByRow(sheet.getRow(4));
 
-        Boolean flag = false;
         String linkIP =null;
         String linkPortId =null;
         int linkPort = 0;
@@ -202,7 +202,7 @@ public class LinkServiceImpl implements LinkService {
 
             String linkIPStr = linkIPList.get(i);
             if(linkIPStr.contains(".")){
-                flag = true;
+                GlobalConstants.linkCOMFlag = true;
                 linkIP = linkIPStr.split(":")[0].trim();
                 String linkPortStr = linkIPStr.split(":")[1].trim();
                 linkPort = Integer.valueOf(linkPortStr);
@@ -223,11 +223,11 @@ public class LinkServiceImpl implements LinkService {
                             Link link = new Link(drive1.getProject_id(), stastion_id, drive_id, linkName);
                             List<Link> kList = linkService.getLinkList(link);
                             if (kList.size() == 0) {//插入
-                                if(flag){//插入服务器串口
+                                if(GlobalConstants.linkCOMFlag){//插入服务器串口
                                     link.setType(0);
                                     link.setIpaddress(linkIP);
                                     link.setPort(linkPort);
-                                    flag =false;
+                                    GlobalConstants.linkCOMFlag =false;
                                 }else{//插入通讯串口
                                     link.setType(1);
                                     link.setPortid(linkPortId);
