@@ -8,36 +8,29 @@
 		select * from tbl_project
 	</select>
 
-	<select id="getProjectListBy" resultType="com.jen.exceldevice.pojo.Project" parameterType="com.jen.exceldevice.pojo.Project">
-		select * from tbl_project
-		<where>
-			<if test="name!= null and name!=''">
-				AND name = #{name,jdbcType=VARCHAR}
-			</if>
-		</where>
-	</select>
+    <select id="getProjectListBy" resultType="com.jen.exceldevice.pojo.Project"
+            parameterType="com.jen.exceldevice.pojo.Project">
+        select * from tbl_project
+        <where>
+            <if test="name!= null and name!=''">
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
 
-<insert id="insertProject" parameterType="com.jen.exceldevice.pojo.Project">
+    <insert id="insertProject" parameterType="com.jen.exceldevice.pojo.Project">
 	insert into project (name)
 	values(#{name,jdbcType=VARCHAR})
 </insert>
 
-
-	<!--    <select id="getDeviceListBy" resultType="com.canneng.real.comm.pojo.Device" parameterType="com.canneng.real.comm.pojo.Device">-->
-<!--        select * from tbl_device-->
-<!--        <where>-->
-<!--            <if test="name!= null and name!=''">-->
-<!--                AND name LIKE  '%' #{name} '%'-->
-<!--            </if>-->
-<!--            <if test="describe!= null and describe!=''">-->
-<!--                AND describe LIKE  '%' #{describe} '%'-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </select>-->
-
-<!--    <update id="updateDeviceIshigh" parameterType="com.canneng.real.comm.pojo.Device">-->
-<!--		update tbl_device SET is_highgather = #{is_highgather} WHERE id = #{id}-->
-<!--	</update>-->
+    <delete id="deleteProject" parameterType="com.jen.exceldevice.pojo.Project">
+        delete from tbl_project
+        <where>
+            <if test="name!= null and name!=''">
+                 name != #{name,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </delete>
 
 
 </mapper>

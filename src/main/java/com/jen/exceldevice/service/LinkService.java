@@ -12,4 +12,6 @@ public interface LinkService {
     List<Link> getLinkList(Link link);
 
     int insertLink(Link link);
+
+
 }

@@ -31,4 +31,9 @@ public class ProjectServciceImpl implements ProjectService {
 
         return baseDao.save("ProjectMapper.insertProject",project);
     }
+
+    @Override
+    public int deleteProject(Project project) {
+        return baseDao.delete("ProjectMapper.deleteProject",project);
+    }
 }

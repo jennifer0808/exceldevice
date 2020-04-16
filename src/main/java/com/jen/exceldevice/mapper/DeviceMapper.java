@@ -14,4 +14,6 @@ public interface DeviceMapper {
     List<Device> selectByPage(@Param("page") int page, @Param("limit") int limit, @Param("keyWord") String keyWord);
 
     int selectCount();
+
+    int selectInnerAll(@Param("projectId")int projectId, @Param("stastionName")String stastionName, @Param("driveProtocolName")String driveProtocolName, @Param("linkName")String linkName);
 }

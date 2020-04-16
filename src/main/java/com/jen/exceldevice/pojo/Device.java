@@ -20,10 +20,29 @@ public class Device {
     private int is_highgather;
 
     private int parent_id = 0;
+    private Stastion stastion;
+//    private Drive drive;
 
-    public  Device(){}
+    public Device() {
+    }
 
-    public Device(int id, int project_id, int stastion_id, int drive_id, int link_id, String name, String describe, String address, int start_period, int overtime_period, String device_type_name, String protocol_name, String shsz_id, int category_id, int is_virtual, int is_highgather, int parent_id) {
+    public Device(int project_id, int stastion_id, int drive_id, int link_id, String name, String describe, String address, int overtime_period, String device_type_name, String shsz_id, int category_id, int is_virtual) {
+        this.project_id = project_id;
+        this.stastion_id = stastion_id;
+        this.drive_id = drive_id;
+        this.link_id = link_id;
+        this.name = name;
+        this.describe = describe;
+        this.address = address;
+        this.overtime_period = overtime_period;
+        this.device_type_name = device_type_name;
+        this.shsz_id = shsz_id;
+        this.category_id = category_id;
+        this.is_virtual = is_virtual;
+    }
+
+    public Device(int id, int project_id, int stastion_id, int drive_id, int link_id, String name, String describe, String address, int start_period, int overtime_period, String device_type_name, String protocol_name, String shsz_id, int category_id, int is_virtual, int is_highgather, int parent_id, Stastion stastion) {
+
         this.id = id;
         this.project_id = project_id;
         this.stastion_id = stastion_id;
@@ -41,6 +60,15 @@ public class Device {
         this.is_virtual = is_virtual;
         this.is_highgather = is_highgather;
         this.parent_id = parent_id;
+        this.stastion = stastion;
+    }
+
+    public Stastion getStastion() {
+        return stastion;
+    }
+
+    public void setStastion(Stastion stastion) {
+        this.stastion = stastion;
     }
 
     public int getParent_id() {
@@ -200,4 +228,6 @@ public class Device {
                 ", is_highgather=" + is_highgather +
                 '}';
     }
+
+
 }

@@ -58,7 +58,6 @@ public class DeviceController {
             map.put("count", count);
             map.put("data", deviceList);
         } catch (Exception e) {
-//        throw new MyException(11, e.getMessage());
             logger.info(e.getMessage());
         }
         return map;

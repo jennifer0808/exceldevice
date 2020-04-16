@@ -12,7 +12,8 @@
 <!--        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>-->
 <!--    </resultMap>-->
 
-    <!--describe -->
+
+    <!--describe关键字 -->
     <sql id="Base_Column_List">
         id,project_id,stastion_id,drive_id,link_id,name,'describe',address,start_period,overtime_period,device_type_name,protocol_name,shsz_id,category_id,is_virtual,is_highgather
     </sql>
@@ -35,6 +36,37 @@
     <select id="selectCount" resultType="java.lang.Integer">
         select count(*) from tbl_device
 
+    </select>
+
+
+    <select id="selectInnerAll"  resultType="java.lang.Integer">
+    select count(*)
+    from tbl_device
+    INNER JOIN tbl_link
+    on tbl_link.id = tbl_device.link_id
+    INNER JOIN tbl_drive
+    on tbl_drive.id= tbl_device.drive_id
+    INNER JOIN tbl_stastion
+    on tbl_stastion.id = tbl_device.stastion_id
+    INNER JOIN tbl_project
+    on tbl_project.id = tbl_device.project_id
+
+        <where>
+            <if test="projectId!= 0">
+                AND tbl_project.id = #{projectId,jdbcType=INTEGER}
+            </if>
+
+            <if test="stastionName!= null">
+                AND tbl_stastion.name = #{stastionName,jdbcType=VARCHAR}
+            </if>
+
+            <if test="driveProtocolName!= null">
+                AND tbl_drive.protocol_name = #{driveProtocolName,jdbcType=VARCHAR}
+            </if>
+            <if test="linkName!= null">
+                AND tbl_link.name = #{linkName,jdbcType=VARCHAR}
+            </if>
+        </where>
     </select>
 
 

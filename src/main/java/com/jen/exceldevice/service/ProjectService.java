@@ -11,4 +11,6 @@ public interface ProjectService {
     List<Project> getProjectListBy(Project project) ;
 
     int insertProject(Project project);
+
+    int deleteProject(Project project);
 }

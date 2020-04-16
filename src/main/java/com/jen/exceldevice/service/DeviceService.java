@@ -11,4 +11,8 @@ public interface DeviceService {
     List<Device>  findByPage(int page, int limit, String sUsername);
 
     int queryCount();
+
+    int queryInnerAll(int projectId, String stastionName, String driveProtocolName, String linkName);
+
+    int insertDevice(Device device);
 }

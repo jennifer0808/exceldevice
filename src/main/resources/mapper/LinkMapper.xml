@@ -39,7 +39,6 @@
 
 
 
-
     <insert id="insertLink" parameterType="com.jen.exceldevice.pojo.Link">
         insert into tbl_link
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -64,9 +63,7 @@
             <if test="portid != null">
                 portid,
             </if>
-
                 type
-
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -91,8 +88,6 @@
             <if test="portid != null">
                 #{portid,jdbcType=VARCHAR},
             </if>
-
-
                 #{type,jdbcType=INTEGER}
 
         </trim>
