@@ -281,10 +281,10 @@ public class LinkServiceImpl implements LinkService {
                     if (driveList != null) {
                         for (Drive drive1 : driveList) {
                             int drive_id = drive1.getId();
-                            System.err.println("drive_id" + drive_id);
+                            System.err.println("drive_id:" + drive_id);
                             Link link = new Link(drive1.getProject_id(), stastion_id, drive_id, linkName);
-                            System.out.println("link:"+link);
                             List<Link> kList = linkService.getLinkList(link);
+                            System.out.println(kList);
                             if (kList.size() == 0) {//插入
                                 if (GlobalConstants.serverComFlag) {//插入服务器串口
                                     link.setType(0);
