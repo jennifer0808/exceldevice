@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jen.exceldevice.mapper.DeviceCategoryMapper">
+
+    <select id="getCategoryListByCode" resultType="java.lang.Integer">
+        select id  from tbl_device_category_type where
+        <if test="deviceCategoryShszCode!= null">
+             shsz_code = #{deviceCategoryShszCode,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+
+</mapper>

@@ -14,5 +14,5 @@ public interface DeviceService {
 
     int queryInnerAll(int projectId, String stastionName, String driveProtocolName, String linkName);
 
-    int insertDevice(Device device);
+    int saveDevice(Device device);
 }

@@ -1,7 +1,6 @@
 package com.jen.exceldevice.service.serviceImpl;
 
 
-import com.jen.exceldevice.dao.BaseDao;
 import com.jen.exceldevice.mapper.DeviceMapper;
 import com.jen.exceldevice.pojo.Device;
 import com.jen.exceldevice.service.DeviceService;
@@ -15,8 +14,7 @@ import java.util.List;
 @Service("deviceService")
 public class DeviceServiceImpl implements DeviceService {
     private final static Logger logger = LoggerFactory.getLogger(DeviceServiceImpl.class);
-    @Autowired
-    BaseDao baseDao;
+
     @Autowired
     DeviceMapper deviceMapper;
 
@@ -43,7 +41,7 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public int insertDevice(Device device) {
-        return baseDao.save("DeviceMapper.insertDevice",device);
+    public int saveDevice(Device device) {
+        return deviceMapper.insertDevice(device);
     }
 }

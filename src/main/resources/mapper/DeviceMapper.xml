@@ -2,27 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.jen.exceldevice.mapper.DeviceMapper">
-<!--    <resultMap id="DeviceList" type="Device">-->
-<!--        <id column="id" jdbcType="VARCHAR" property="sId"/>-->
-<!--        <result column="s_username" jdbcType="VARCHAR" property="sUsername"/>-->
-<!--        <result column="s_password" jdbcType="VARCHAR" property="sPassword"/>-->
-<!--        <result column="s_class" jdbcType="VARCHAR" property="sClass"/>-->
-<!--        <result column="s_major" jdbcType="VARCHAR" property="sMajor"/>-->
-<!--        <result column="s_sex" jdbcType="CHAR" property="sSex"/>-->
-<!--        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>-->
-<!--    </resultMap>-->
-
 
     <!--describe关键字 -->
     <sql id="Base_Column_List">
-        id,project_id,stastion_id,drive_id,link_id,name,'describe',address,start_period,overtime_period,device_type_name,protocol_name,shsz_id,category_id,is_virtual,is_highgather
+        id,project_id,stastion_id,drive_id,link_id,name,`describe`,address,start_period,overtime_period,device_type_name,protocol_name,shsz_id,category_id,is_virtual,is_highgather
     </sql>
 
     <!--分页查询-->
-    <select id="selectByPage"  resultType="com.jen.exceldevice.pojo.Device">
+    <select id="selectByPage" resultType="com.jen.exceldevice.pojo.Device">
         select
         <include refid="Base_Column_List"/>
-          from tbl_device where
+        from tbl_device where
         <if test='keyWord!="" or keyWord!=null'>
             name LIKE '%${keyWord}%'
         </if>
@@ -39,17 +29,17 @@
     </select>
 
 
-    <select id="selectInnerAll"  resultType="java.lang.Integer">
-    select count(*)
-    from tbl_device
-    INNER JOIN tbl_link
-    on tbl_link.id = tbl_device.link_id
-    INNER JOIN tbl_drive
-    on tbl_drive.id= tbl_device.drive_id
-    INNER JOIN tbl_stastion
-    on tbl_stastion.id = tbl_device.stastion_id
-    INNER JOIN tbl_project
-    on tbl_project.id = tbl_device.project_id
+    <select id="selectInnerAll" resultType="java.lang.Integer">
+        select count(*)
+        from tbl_device
+        INNER JOIN tbl_link
+        on tbl_link.id = tbl_device.link_id
+        INNER JOIN tbl_drive
+        on tbl_drive.id= tbl_device.drive_id
+        INNER JOIN tbl_stastion
+        on tbl_stastion.id = tbl_device.stastion_id
+        INNER JOIN tbl_project
+        on tbl_project.id = tbl_device.project_id
 
         <where>
             <if test="projectId!= 0">
@@ -68,6 +58,95 @@
             </if>
         </where>
     </select>
+
+    <insert id="insertDevice" parameterType="com.jen.exceldevice.pojo.DeviceCategory">
+        insert into tbl_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="project_id != 0">
+                project_id,
+            </if>
+            <if test="stastion_id != 0">
+                stastion_id,
+            </if>
+            <if test="drive_id != 0">
+                drive_id,
+            </if>
+            <if test="link_id != 0">
+                link_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+
+            <if test="describe != null">
+                `describe`,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="overtime_period != 0">
+                overtime_period,
+            </if>
+            <if test="device_type_name != null">
+                device_type_name,
+            </if>
+            <if test="protocol_name != null">
+                protocol_name,
+            </if>
+            <if test="shsz_id != null">
+                shsz_id,
+            </if>
+            <if test="category_id != 0">
+                category_id,
+            </if>
+                is_virtual,
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="project_id != 0">
+                #{project_id,jdbcType=INTEGER},
+            </if>
+            <if test="stastion_id != 0">
+                #{stastion_id,jdbcType=INTEGER},
+            </if>
+            <if test="drive_id != 0">
+                #{drive_id,jdbcType=INTEGER},
+            </if>
+            <if test="link_id != 0">
+                #{link_id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+
+            <if test="describe != null">
+                #{describe,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="overtime_period != 0">
+                #{overtime_period,jdbcType=INTEGER},
+            </if>
+            <if test="device_type_name != null">
+                #{device_type_name,jdbcType=VARCHAR},
+            </if>
+            <if test="protocol_name != null">
+                #{protocol_name,jdbcType=VARCHAR},
+            </if>
+
+            <if test="shsz_id != null">
+                #{shsz_id,jdbcType=VARCHAR},
+            </if>
+            <if test="category_id != 0">
+                #{category_id,jdbcType=INTEGER},
+            </if>
+
+                #{is_virtual,jdbcType=INTEGER},
+
+        </trim>
+
+    </insert>
 
 
 </mapper>

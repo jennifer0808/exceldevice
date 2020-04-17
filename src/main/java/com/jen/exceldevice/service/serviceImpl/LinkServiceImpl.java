@@ -22,17 +22,7 @@ import java.util.List;
 @Service("linkService")
 public class LinkServiceImpl implements LinkService {
     private final static Logger logger = LoggerFactory.getLogger(LinkServiceImpl.class);
-    private String deviceDescribe = null;
-    private String deviceName = null;
-    private  String deviceAddress = null;
-    private String stastionName = null;
-    private String driveProtocolName = null;
-    private String linkName = null;
-    private String deviceTypeName = null;
-    private  String deviceCategoryShszCode = null;
-    private  Integer deviceOvertime = null;
-    private Integer deviceIsvirtual = null;
-    private  String deviceShszId = null;
+
 
     @Autowired
     BaseDao baseDao;
@@ -47,6 +37,10 @@ public class LinkServiceImpl implements LinkService {
     LinkService linkService;
     @Autowired
     DeviceService deviceService;
+    @Autowired
+    DeviceCategoryService deviceCategoryService;
+    @Autowired
+    DeviceRateService deviceRateService;
 
 
     @Override
@@ -140,50 +134,64 @@ public class LinkServiceImpl implements LinkService {
                 }
                 buffer.append(cellVal + ";");
             }
-            System.err.println("buffer:"+buffer);
+            System.err.println("buffer:" + buffer);
             //处理数据
-            readDeviceData(buffer,project_id);
-//            deviceService.insertDevice(new Device(project_id,stastion_id,drive_id,link_id,deviceName,deviceDescribe,deviceAddress,deviceOvertime,deviceTypeName,deviceShszId,deviceCategoryShszCode,deviceIsvirtual));
+            ReadExcelUtils.readDeviceData(buffer, project_id);
+            //存取categoryID数值
+            int category_id = deviceCategoryService.queryCategoryListByCode(GlobalConstants.deviceCategoryShszCode);
+            //匹配获取ID
+            String idStr = ReadExcelUtils.matchReceiveId(GlobalConstants.deviceStastionName, GlobalConstants.deviceDriveProtocolName, GlobalConstants.deviceLinkName);
 
-//            int count = deviceService.queryInnerAll(project_id, stastionName, driveProtocolName, linkName);
-//            System.out.println(count);
-//            if(count ==0){//插入
-                //查出对应id
+            if (!"".contains(idStr)) { //插入
+                Integer stastion_id = Integer.valueOf(idStr.split(":")[0].trim());
+                Integer drive_id = Integer.valueOf(idStr.split(":")[1].trim());
+                Integer link_id = Integer.valueOf(idStr.split(":")[2].trim());
+                System.out.println("idStr:" + stastion_id + "," + drive_id + "," + link_id);
 
-//                deviceService.insertDevice(new Device(project_id,stastion_id,drive_id,link_id,deviceName,deviceDescribe,deviceAddress,deviceOvertime,deviceTypeName,deviceShszId,deviceCategoryShszCode,deviceIsvirtual));
-//            }
+//todo
+//                deviceService.saveDevice(
+//                        new Device(project_id,
+//                                stastion_id,
+//                                drive_id,
+//                                link_id,
+//                                GlobalConstants.deviceName,
+//                                GlobalConstants.deviceDescribe,
+//                                GlobalConstants.deviceAddress,
+//                                GlobalConstants.deviceOvertime,
+//                                GlobalConstants.deviceTypeName,
+//                                GlobalConstants.deviceDriveProtocolName,
+//                                GlobalConstants.deviceShszId,
+//                                category_id,
+//                                GlobalConstants.deviceIsvirtual));
 
-        }
-
-
-    }
-
-    //处理sheet2中的每行数据
-    public void readDeviceData(StringBuffer stringBuffer,int projectId) {
-        String[] str = stringBuffer.toString().split(";");
-        for (int i = 0; i <= str.length; i++) {
-            try {
-                deviceDescribe = str[1].trim();
-                deviceName = str[2].trim();
-                deviceAddress = str[3].trim();
-                stastionName = str[4].trim();
-                driveProtocolName = str[5].trim();
-                linkName = str[6].trim();
-                deviceTypeName = str[7].trim();
-                deviceCategoryShszCode = str[8].trim();
-                deviceOvertime = Integer.valueOf(str[9].trim());
-                deviceIsvirtual = Integer.valueOf(str[10].trim());
-                deviceShszId = str[11].trim();
-
-            } catch (Exception e) {
-                logger.error(e.getMessage());
+            } else {
+                logger.error("匹配获取不到ID！无法导入device表！");
             }
+
         }
+
     }
 
 
     //导入sheet3
     public void readExcelSheet3(Sheet sheet) {
+        for(int k=0;k<sheet.getLastRowNum();k++){
+            Row row = sheet.getRow(k+1);
+            System.out.println(row);
+            for(int i=0;i<row.getLastCellNum();i++){
+               String combineNameCell =  row.getCell(i).getStringCellValue();
+               double rateCell = row.getCell(i+1).getNumericCellValue();
+               DeviceRate rate = new DeviceRate(combineNameCell,rateCell);
+             List<DeviceRate> deviceRateList = deviceRateService.getRateListBy(rate);
+             if(deviceRateList.size()==0){//插入
+                 deviceRateService.inserDeviceRate(rate);
+             }
+
+
+            }
+
+        }
+
 
     }
 
@@ -214,7 +222,7 @@ public class LinkServiceImpl implements LinkService {
             //测试
             List<Stastion> stastionstest = stastionService.getStastionList(stastion);
             for (Stastion sta : stastionstest) {
-                GlobalConstants.stastionMap.put(sta.getName(),sta.getId());
+                GlobalConstants.stastionMap.put(sta.getName(), sta.getId());
             }
 
         }
@@ -239,7 +247,7 @@ public class LinkServiceImpl implements LinkService {
                     //测试
                     List<Drive> driveListtest = driveService.getDriveList(drive);
                     for (Drive dri : driveListtest) {
-                        GlobalConstants.driveMap.put(stastionName+":"+dri.getProtocol_name(),dri.getId());
+                        GlobalConstants.driveMap.put(stastionName + ":" + dri.getProtocol_name(), dri.getId());
                     }
                 }
             }
@@ -281,10 +289,8 @@ public class LinkServiceImpl implements LinkService {
                     if (driveList != null) {
                         for (Drive drive1 : driveList) {
                             int drive_id = drive1.getId();
-                            System.err.println("drive_id:" + drive_id);
                             Link link = new Link(drive1.getProject_id(), stastion_id, drive_id, linkName);
                             List<Link> kList = linkService.getLinkList(link);
-                            System.out.println(kList);
                             if (kList.size() == 0) {//插入
                                 if (GlobalConstants.serverComFlag) {//插入服务器串口
                                     link.setType(0);
@@ -299,10 +305,10 @@ public class LinkServiceImpl implements LinkService {
                             }
 
 //                           // 测试
-//                            List<Link> linkListtest = linkService.getLinkList(link);
-//                            for(Link lin :linkListtest){
-//                                GlobalConstants.linkMap.put(stastionName+":"+driveProtocolName+":"+lin.getName(),lin.getId());
-//                            }
+                            List<Link> linkListtest = linkService.getLinkList(link);
+                            for (Link lin : linkListtest) {
+                                GlobalConstants.linkMap.put(stastionName + ":" + driveProtocolName + ":" + lin.getName(), stastion_id + ":" + drive_id + ":" + lin.getId());
+                            }
 
 
                         }
@@ -313,7 +319,6 @@ public class LinkServiceImpl implements LinkService {
         System.out.println(GlobalConstants.linkMap);
 
     }
-
 
 
 }
