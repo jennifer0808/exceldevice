@@ -8,5 +8,5 @@ public interface DeviceRateService {
 
     List<DeviceRate> getRateListBy(DeviceRate rate);
 
-    int inserDeviceRate(DeviceRate rate);
+    int insertDeviceRate(DeviceRate rate);
 }

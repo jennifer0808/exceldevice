@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,10 +24,8 @@ import java.util.List;
 public class LinkServiceImpl implements LinkService {
     private final static Logger logger = LoggerFactory.getLogger(LinkServiceImpl.class);
 
-
     @Autowired
     BaseDao baseDao;
-
     @Autowired
     ProjectService projectService;
     @Autowired
@@ -178,17 +177,13 @@ public class LinkServiceImpl implements LinkService {
         for(int k=0;k<sheet.getLastRowNum();k++){
             Row row = sheet.getRow(k+1);
             System.out.println(row);
-            for(int i=0;i<row.getLastCellNum();i++){
-               String combineNameCell =  row.getCell(i).getStringCellValue();
-               double rateCell = row.getCell(i+1).getNumericCellValue();
+               String combineNameCell =  row.getCell(0).getStringCellValue();
+               double rateCell = row.getCell(1).getNumericCellValue();
                DeviceRate rate = new DeviceRate(combineNameCell,rateCell);
              List<DeviceRate> deviceRateList = deviceRateService.getRateListBy(rate);
-             if(deviceRateList.size()==0){//插入
-                 deviceRateService.inserDeviceRate(rate);
+             if(CollectionUtils.isEmpty(deviceRateList)){//插入
+                 deviceRateService.insertDeviceRate(rate);
              }
-
-
-            }
 
         }
 

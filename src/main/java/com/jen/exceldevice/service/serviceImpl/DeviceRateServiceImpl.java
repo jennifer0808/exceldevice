@@ -20,7 +20,7 @@ public class DeviceRateServiceImpl implements DeviceRateService {
     }
 
     @Override
-    public int inserDeviceRate(DeviceRate rate) {
-        return baseDao.delete("DeviceRateMapper.inserDeviceRate",rate);
+    public int insertDeviceRate(DeviceRate rate) {
+        return baseDao.delete("DeviceRateMapper.insertDeviceRate",rate);
     }
 }
