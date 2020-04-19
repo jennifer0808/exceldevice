@@ -1,6 +1,7 @@
 package com.jen.exceldevice.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class DeviceRate implements Serializable {
     private final static long  serialVersionUID =1L;
@@ -58,4 +59,6 @@ public class DeviceRate implements Serializable {
                 ", rate=" + rate +
                 '}';
     }
+
+
 }

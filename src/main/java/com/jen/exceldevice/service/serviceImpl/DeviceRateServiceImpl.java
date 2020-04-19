@@ -23,4 +23,9 @@ public class DeviceRateServiceImpl implements DeviceRateService {
     public int insertDeviceRate(DeviceRate rate) {
         return baseDao.delete("DeviceRateMapper.insertDeviceRate",rate);
     }
+
+    @Override
+    public List<DeviceRate> getDeviceRateListAll() {
+        return baseDao.getList("DeviceRateMapper.getDeviceRateListAll",null);
+    }
 }

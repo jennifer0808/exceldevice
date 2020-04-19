@@ -2,9 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="DeviceRateMapper">
-    <select id="getRateListBy" resultType="com.jen.exceldevice.pojo.Drive" parameterType="com.jen.exceldevice.pojo.DeviceRate">
+    <select id="getRateListBy" resultType="com.jen.exceldevice.pojo.DeviceRate"
+            parameterType="com.jen.exceldevice.pojo.DeviceRate">
         select id, combine_name,rate from tbl_device_rate where  combine_name = #{combine_name,jdbcType=VARCHAR} and rate = #{rate,jdbcType=DECIMAL}
     </select>
+
+    <!--查询所有-->
+    <select id="getDeviceRateListAll" resultType="com.jen.exceldevice.pojo.DeviceRate">
+        select id, combine_name,rate from tbl_device_rate
+    </select>
+
 
     <insert id="insertDeviceRate" parameterType="com.jen.exceldevice.pojo.DeviceRate">
         insert into tbl_device_rate (combine_name,rate) values ( #{combine_name,jdbcType=VARCHAR} ,  #{rate,jdbcType=DECIMAL})
