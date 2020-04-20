@@ -16,6 +16,25 @@ public class Link implements Serializable {
     private String portid;
     private Integer type;
 
+    private Stastion stastion;
+    private Drive drive;
+
+    public Stastion getStastion() {
+        return stastion;
+    }
+
+    public void setStastion(Stastion stastion) {
+        this.stastion = stastion;
+    }
+
+    public Drive getDrive() {
+        return drive;
+    }
+
+    public void setDrive(Drive drive) {
+        this.drive = drive;
+    }
+
     public Link(){}
 
     public Link(String name) {

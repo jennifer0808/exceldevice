@@ -14,4 +14,6 @@ public interface StastionService {
     int insertStastion(Stastion stastion);
 
     int updateStasttion(Stastion stastion);
+
+    List<Stastion> getStastionInnerAll();
 }

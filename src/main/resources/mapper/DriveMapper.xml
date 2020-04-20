@@ -21,56 +21,33 @@
         </where>
     </select>
 
+    <select id="getDriveInnerAll"   resultMap="DriveResultMap" >
+        select  tbl_drive.id ,
+                tbl_drive.protocol_name,
+                tbl_stastion.`name`
+        from tbl_drive
+        INNER JOIN tbl_project
+        on tbl_project.id= tbl_drive.project_id
+        INNER JOIN tbl_stastion
+        on tbl_stastion.id = tbl_drive.stastion_id
+    </select>
+
+    <resultMap id="DriveResultMap" type="Drive">
+        <id property="id" column="id"/>
+        <result property="protocol_name" column="protocol_name"/>
+        <association property="stastion" javaType="com.jen.exceldevice.pojo.Stastion">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+
 
     <insert id="insertDrive" parameterType="com.jen.exceldevice.pojo.Drive" >
         insert into tbl_drive(project_id,stastion_id,protocol_name)
         values(#{project_id,jdbcType=INTEGER},#{stastion_id,jdbcType=INTEGER}, #{protocol_name,jdbcType=VARCHAR})
     </insert>
 
-<!--    <select id="getDriveListID" resultType="com.jen.exceldevice.pojo.Drive" parameterType="list">-->
-<!--		select tbl_drive.id-->
-<!--        from tbl_drive-->
-<!--        INNER JOIN tbl_stastion-->
-<!--        on tbl_stastion.id =tbl_drive.stastion_id-->
-<!--        INNER JOIN tbl_project-->
-<!--        on tbl_project.id =tbl_drive.project_id-->
 
-<!--        where tbl_stastion.name= 'kdczd' and tbl_drive.protocol_name='MODBUS'-->
-<!--        <where>-->
-<!--            <foreach collection="list" item="item" separator="," open="(" close=")" index="">-->
-<!--                -->
-<!--            </foreach>-->
-<!--        </where>-->
-<!--	</select>-->
-
-
-    <!--	<select id="getStastionList" resultType="com.jen.exceldevice.pojo.Stastion" parameterType="com.jen.exceldevice.pojo.Stastion">-->
-    <!--		select * from tbl_stastion-->
-    <!--		<where>-->
-    <!--			<if test="project_id!= 0">-->
-    <!--				AND project_id = #{project_id,jdbcType=INTEGER}-->
-    <!--			</if>-->
-    <!--			<if test="name!= null">-->
-    <!--				AND name = #{name,jdbcType=INTEGER}-->
-    <!--			</if>-->
-    <!--		</where>-->
-    <!--	</select>-->
-
-    <!--<insert id="insertStastion" parameterType="com.jen.exceldevice.pojo.Stastion">-->
-    <!--	insert into tbl_stastion (project_id,name)-->
-    <!--	values(#{project_id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})-->
-    <!--</insert>-->
-
-
-    <!--	<update id="updateStasttion" parameterType="com.jen.exceldevice.pojo.Stastion">-->
-    <!--		update tbl_stastion-->
-    <!--		<set>-->
-    <!--			<if test="name != null">-->
-    <!--				m_password = #{name,jdbcType=VARCHAR}-->
-    <!--			</if>-->
-    <!--		</set>-->
-    <!--		where id = #{id,jdbcType=INTEGER} and  project_id = #{project_id,jdbcType=INTEGER}-->
-    <!--	</update>-->
 
 
 </mapper>

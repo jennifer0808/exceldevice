@@ -59,6 +59,62 @@
         </where>
     </select>
 
+
+    <select id="selectDeviceInnerAll" resultMap="deviceResultMap">
+    select
+        tbl_stastion.`name` as stastionName,
+        tbl_drive.protocol_name,
+        tbl_link.`name` as linkName,
+        tbl_device_category_type.shsz_code,
+
+        tbl_device.`describe`,
+        tbl_device.name as deviceName,
+        tbl_device.address,
+        tbl_device.device_type_name,
+        tbl_device.overtime_period,
+        tbl_device.is_highgather,
+        tbl_device.shsz_id
+    from tbl_device
+    INNER JOIN  tbl_stastion
+    on tbl_stastion.id = tbl_device.stastion_id
+    INNER JOIN tbl_drive
+    on  tbl_drive.id = tbl_device.drive_id
+    INNER JOIN tbl_link
+    on tbl_link.id = tbl_device.link_id
+    INNER JOIN tbl_device_category_type
+    on tbl_device_category_type.id = tbl_device.category_id
+    </select>
+    <resultMap id="deviceResultMap" type="Device">
+        <id property="id" column="id"/>
+        <result property="name" column="deviceName"/>
+        <result property="describe" column="describe"/>
+        <result property="address" column="address"/>
+        <result property="device_type_name" column="device_type_name"/>
+        <result property="overtime_period" column="overtime_period"/>
+        <result property="is_highgather" column="is_highgather"/>
+        <result property="shsz_id" column="shsz_id"/>
+        <association property="stastion" javaType="com.jen.exceldevice.pojo.Stastion">
+            <id property="id" column="id"/>
+            <result property="name" column="stastionName"/>
+        </association>
+        <association property="drive" javaType="com.jen.exceldevice.pojo.Drive">
+            <id property="id" column="id"/>
+            <result property="protocol_name" column="protocol_name"/>
+        </association>
+        <association property="link" javaType="com.jen.exceldevice.pojo.Link">
+            <id property="id" column="id"/>
+            <result property="name" column="linkName"/>
+        </association>
+        <association property="deviceCategory" javaType="com.jen.exceldevice.pojo.DeviceCategory">
+            <id property="id" column="id"/>
+            <result property="shsz_code" column="shsz_code"/>
+        </association>
+
+    </resultMap>
+
+
+
+
     <insert id="insertDevice" parameterType="com.jen.exceldevice.pojo.DeviceCategory">
         insert into tbl_device
         <trim prefix="(" suffix=")" suffixOverrides=",">

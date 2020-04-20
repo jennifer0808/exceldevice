@@ -3,7 +3,6 @@ package com.jen.exceldevice.controller;
 import com.jen.exceldevice.common.globalConfig.GlobalConstants;
 import com.jen.exceldevice.pojo.*;
 import com.jen.exceldevice.service.*;
-import com.jen.exceldevice.utils.WriteExcelUtils;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.streaming.SXSSFCell;
@@ -13,7 +12,6 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -110,89 +108,224 @@ public class DeviceController {
         }
     }
 
-
     //sheet1
     public void writeExcelSheet1(SXSSFSheet sheet1, CellStyle cellStyle) {
-        for(int k=0;k<sheet1.getLastRowNum();k++){
-            SXSSFRow row =  sheet1.getRow(k);
-            if(k==0){
-                writeExcelProject(row,cellStyle);
-            }else if(k==1){
-                writeExcelStastion(row,cellStyle);
-            }else if(k==2){
-                writeExcelDrive(row,cellStyle);
-            }else if(k==3){
-                writeExcelLink(row,cellStyle);
-            }else if(k==4){
-                writeExcelLinkIP(row,cellStyle);
-            }
-        }
 
-    }
+        //读项目行
+        SXSSFRow row = sheet1.createRow(0);
 
-    //导入项目行
-    public void writeExcelProject(SXSSFRow row, CellStyle cellStyle){
-
-        SXSSFCell headCell = row.getCell(0);
+        SXSSFCell headCell = row.createCell(0);
         headCell.setCellValue("项目名称");
         headCell.setCellStyle(cellStyle);
 
-        List<Project> projectList =  projectService.getProjectList();
-        SXSSFCell DataCell = row.getCell(1);
+        List<Project> projectList = projectService.getProjectList();
+        int project_id = projectList.get(0).getId();
+        SXSSFCell DataCell = row.createCell(1);
         DataCell.setCellValue(projectList.get(0).getName());
         DataCell.setCellStyle(cellStyle);
-    }
 
-    //导入站点行
-    public void writeExcelStastion(SXSSFRow row, CellStyle cellStyle){
-        SXSSFCell headCell = row.getCell(0);
+        //读站点行
+        row = sheet1.createRow(1);
+
+        headCell = row.createCell(0);
         headCell.setCellValue("站点名称");
         headCell.setCellStyle(cellStyle);
 
-        //todo 2表联查
-      List<Stastion>  stastionList =  stastionService.getStastionList(new Stastion(0,null));
-        for(int i=0 ; i< stastionList.size();i++){
-            SXSSFCell cell= row.getCell(i+1);
+        List<Stastion> stastionList = stastionService.getStastionInnerAll();
+        for (int i = 0; i < stastionList.size(); i++) {
+            SXSSFCell cell = row.createCell(i + 1);
             cell.setCellValue(stastionList.get(i).getName());
             cell.setCellStyle(cellStyle);
         }
-    }
 
-    //导入驱动行
-    public void writeExcelDrive(SXSSFRow row, CellStyle cellStyle){
-        SXSSFCell headCell = row.getCell(0);
+        //读站点行
+        row = sheet1.createRow(2);
+
+        headCell = row.createCell(0);
         headCell.setCellValue("站点协议信息");
         headCell.setCellStyle(cellStyle);
 
+        List<Drive> driveList = driveService.getDriveInnerAll();
+        for (int i = 0; i < driveList.size(); i++) {
+            SXSSFCell cell = row.createCell(i + 1);
+            StringBuffer sb = new StringBuffer();
+            sb.append(driveList.get(i).getStastion().getName()).append(":").append(driveList.get(i).getProtocol_name());
+            cell.setCellValue(sb.toString());
+            cell.setCellStyle(cellStyle);
+        }
 
-        //TODO 3表联查
-       List<Drive> driveList = driveService.getDriveList(new Drive(0,0,null));
-       for(int i=0 ; i< driveList.size();i++){
-           SXSSFCell cell= row.getCell(i+1);
-           cell.setCellValue(driveList.get(i).getProtocol_name());
-           cell.setCellStyle(cellStyle);
-       }
-    }
+        //导入驱动行
+        row = sheet1.createRow(3);
 
-    //导入链路行1
-    public void writeExcelLink(SXSSFRow row, CellStyle cellStyle){
-        SXSSFCell headCell = row.getCell(0);
+        headCell = row.createCell(0);
         headCell.setCellValue("串口信息");
         headCell.setCellStyle(cellStyle);
 
+        SXSSFRow row4 = sheet1.createRow(4);
 
-
-    }
-    //导入链路行2
-    public void writeExcelLinkIP(SXSSFRow row, CellStyle cellStyle){
-
-        SXSSFCell headCell = row.getCell(0);
+        headCell = row4.createCell(0);
         headCell.setCellValue("串口ip信息");
         headCell.setCellStyle(cellStyle);
+
+       List<Link> linkList = linkService.getLinkInnerAll();
+       for(int i=0;i<linkList.size();i++){
+           SXSSFCell cell = row.createCell(i + 1);
+           StringBuffer sb = new StringBuffer();
+           sb.append(linkList.get(i).getStastion().getName()).append(":").append(linkList.get(i).getDrive().getProtocol_name()).append("_").append(linkList.get(i).getName());
+           cell.setCellValue(sb.toString());
+           cell.setCellStyle(cellStyle);
+
+           cell = row4.createCell(i + 1);
+           StringBuffer sbIP = new StringBuffer();
+           int type = linkList.get(i).getType();
+           if(type==1){
+               sbIP.append(linkList.get(i).getPortid());
+           }else{//type==0
+               sbIP.append(linkList.get(i).getIpaddress()).append(":").append(linkList.get(i).getPort());
+           }
+           cell.setCellValue(sbIP.toString());
+           cell.setCellStyle(cellStyle);
+       }
+
     }
+
+
 
     //sheet2
     public void writeExcelSheet2(SXSSFSheet sheet2, CellStyle cellStyle) {
+        //读项目行
+        SXSSFRow row = sheet2.createRow(0);
+
+        SXSSFCell headCell = row.createCell(0);
+        headCell.setCellValue("项目名称");
+        headCell.setCellStyle(cellStyle);
+
+        List<Project> projectList = projectService.getProjectList();
+        int project_id = projectList.get(0).getId();
+        SXSSFCell DataCell = row.createCell(1);
+        DataCell.setCellValue(projectList.get(0).getName());
+        DataCell.setCellStyle(cellStyle);
+
+        //表头行
+        row = sheet2.createRow(1);
+
+        //添加表头内容
+        headCell = row.createCell(0);
+        headCell.setCellValue("序号");
+        headCell.setCellStyle(cellStyle);
+
+        headCell = row.createCell(1);
+        headCell.setCellValue("回路名称");
+        headCell.setCellStyle(cellStyle);
+
+        headCell = row.createCell(2);
+        headCell.setCellValue("设备编号");
+        headCell.setCellStyle(cellStyle);
+
+        headCell = row.createCell(3);
+        headCell.setCellValue("物理地址");
+        headCell.setCellStyle(cellStyle);
+
+
+        headCell = row.createCell(4);
+        headCell.setCellValue("站点");
+        headCell.setCellStyle(cellStyle);
+
+
+        headCell = row.createCell(5);
+        headCell.setCellValue("协议 ");
+        headCell.setCellStyle(cellStyle);
+
+
+        headCell = row.createCell(6);
+        headCell.setCellValue("串口");
+        headCell.setCellStyle(cellStyle);
+
+        headCell = row.createCell(7);
+        headCell.setCellValue("表型号");
+        headCell.setCellStyle(cellStyle);
+
+        headCell = row.createCell(8);
+        headCell.setCellValue("分类分项代码");
+        headCell.setCellStyle(cellStyle);
+
+
+        headCell = row.createCell(9);
+        headCell.setCellValue("默认超时时间");
+        headCell.setCellStyle(cellStyle);
+
+
+        headCell = row.createCell(10);
+        headCell.setCellValue("是否虚拟表");
+        headCell.setCellStyle(cellStyle);
+
+        headCell = row.createCell(11);
+        headCell.setCellValue("市政建筑编号");
+        headCell.setCellStyle(cellStyle);
+
+        //添加数据内容
+        List<Device> deviceList = deviceService.getDeviceInnerAll();
+        for(int i=0 ;i<deviceList.size();i++){
+            row = sheet2.createRow(i + 2);
+            Device device = deviceList.get(i);
+
+            SXSSFCell cellContent = row.createCell(0);
+            cellContent.setCellValue(i+1);
+            cellContent.setCellStyle(cellStyle);
+
+
+            cellContent = row.createCell(1);
+            cellContent.setCellValue(device.getDescribe());
+            cellContent.setCellStyle(cellStyle);
+
+            cellContent = row.createCell(2);
+            cellContent.setCellValue(device.getName());
+            cellContent.setCellStyle(cellStyle);
+
+
+            cellContent = row.createCell(3);
+            cellContent.setCellValue(device.getAddress());
+            cellContent.setCellStyle(cellStyle);
+
+            cellContent = row.createCell(4);
+            cellContent.setCellValue(device.getStastion().getName());
+            cellContent.setCellStyle(cellStyle);
+
+
+            cellContent = row.createCell(5);
+            cellContent.setCellValue(device.getDrive().getProtocol_name());
+            cellContent.setCellStyle(cellStyle);
+
+
+            cellContent = row.createCell(6);
+            cellContent.setCellValue(device.getLink().getName());
+            cellContent.setCellStyle(cellStyle);
+
+
+            cellContent = row.createCell(7);
+            cellContent.setCellValue(device.getDevice_type_name());
+            cellContent.setCellStyle(cellStyle);
+
+
+            cellContent = row.createCell(8);
+            cellContent.setCellValue(device.getDeviceCategory().getShsz_code());
+            cellContent.setCellStyle(cellStyle);
+
+            cellContent = row.createCell(9);
+            cellContent.setCellValue(device.getOvertime_period());
+            cellContent.setCellStyle(cellStyle);
+
+            cellContent = row.createCell(10);
+            cellContent.setCellValue(device.getIs_virtual());
+            cellContent.setCellStyle(cellStyle);
+
+
+            cellContent = row.createCell(11);
+            cellContent.setCellValue(device.getShsz_id());
+            cellContent.setCellStyle(cellStyle);
+
+
+        }
 
     }
 

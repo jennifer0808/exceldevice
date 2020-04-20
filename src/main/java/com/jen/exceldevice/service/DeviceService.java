@@ -15,4 +15,6 @@ public interface DeviceService {
     int queryInnerAll(int projectId, String stastionName, String driveProtocolName, String linkName);
 
     int saveDevice(Device device);
+
+    List<Device> getDeviceInnerAll();
 }

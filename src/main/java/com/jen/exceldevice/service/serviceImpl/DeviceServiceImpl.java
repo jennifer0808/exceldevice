@@ -44,4 +44,10 @@ public class DeviceServiceImpl implements DeviceService {
     public int saveDevice(Device device) {
         return deviceMapper.insertDevice(device);
     }
+
+    @Override
+    public List<Device> getDeviceInnerAll() {
+
+        return deviceMapper.selectDeviceInnerAll();
+    }
 }

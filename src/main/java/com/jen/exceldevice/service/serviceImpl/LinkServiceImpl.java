@@ -53,6 +53,11 @@ public class LinkServiceImpl implements LinkService {
     }
 
     @Override
+    public List<Link> getLinkInnerAll() {
+        return baseDao.getList("LinkMapper.getLinkInnerAll",null);
+    }
+
+    @Override
     public boolean readExcel(String fileName, MultipartFile file) throws IOException {
         boolean notNull = false;
         List<Link> linkList = new ArrayList<>();
@@ -186,8 +191,6 @@ public class LinkServiceImpl implements LinkService {
              }
 
         }
-
-
     }
 
 

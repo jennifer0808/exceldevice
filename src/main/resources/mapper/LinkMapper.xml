@@ -22,22 +22,43 @@
                 AND name = #{name,jdbcType=VARCHAR}
             </if>
 
-<!--            <if test="ipaddress!= null">-->
-<!--                AND ipaddress = #{ipaddress,jdbcType=VARCHAR}-->
-<!--            </if>-->
-<!--            <if test="port!= 0">-->
-<!--                AND port = #{port,jdbcType=INTEGER}-->
-<!--            </if>-->
-<!--            <if test="portid!= null">-->
-<!--                AND portid = #{portid,jdbcType=VARCHAR}-->
-<!--            </if>-->
-<!--            <if test="type!= 0">-->
-<!--                AND type = #{type,jdbcType=INTEGER}-->
-<!--            </if>-->
         </where>
     </select>
 
-
+    <select id="getLinkInnerAll" resultMap="LinkResultMap">
+        select
+            tbl_drive.protocol_name,
+            tbl_stastion.`name`,
+            tbl_link.id,
+            tbl_link.`name` as linkName,
+            tbl_link.ipaddress,
+            tbl_link.`port` ,
+            tbl_link.portid,
+            tbl_link.type
+        from tbl_link
+        INNER JOIN tbl_project
+        on tbl_project.id = tbl_link.project_id
+        inner join tbl_stastion
+        on tbl_stastion.id = tbl_link.stastion_id
+        INNER JOIN tbl_drive
+        on tbl_drive.id = tbl_link.drive_id
+    </select>
+    <resultMap id="LinkResultMap" type="Link">
+        <id property="id" column="id"/>
+        <result property="name" column="linkName" />
+        <result property="ipaddress" column="ipaddress"/>
+        <result property="port" column="port"/>
+        <result property="portid" column="portid"/>
+        <result property="type" column="type"/>
+        <association property="stastion" javaType="com.jen.exceldevice.pojo.Stastion">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+        <association property="drive" javaType="com.jen.exceldevice.pojo.Drive">
+            <id property="id" column="id"/>
+            <result property="protocol_name" column="protocol_name"/>
+        </association>
+    </resultMap>
 
     <insert id="insertLink" parameterType="com.jen.exceldevice.pojo.Link">
         insert into tbl_link
@@ -63,7 +84,7 @@
             <if test="portid != null">
                 portid,
             </if>
-                type
+            type
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -88,13 +109,11 @@
             <if test="portid != null">
                 #{portid,jdbcType=VARCHAR},
             </if>
-                #{type,jdbcType=INTEGER}
+            #{type,jdbcType=INTEGER}
 
         </trim>
 
     </insert>
-
-
 
 
 </mapper>

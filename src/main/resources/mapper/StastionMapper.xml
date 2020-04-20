@@ -4,50 +4,68 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="StastionMapper">
 
+<!--    <resultMap id="BaseResultMap" type="Stastion">&lt;!&ndash;com.jen.exceldevice.pojo.&ndash;&gt;-->
+
+<!--        <id column="id" property="id" />-->
+<!--        <result column="name"  property="name" />-->
+
+<!--&lt;!&ndash;        <collection property="list" ofType="Student">&ndash;&gt;-->
+<!--&lt;!&ndash;            <id column="sid" property="id"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <result column="sname" property="name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <result column="age" property="age"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <result column="tid" property="tid"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <association property="teacher" select="com.bjsxt.mapper.TeacherMapper.selById" column="tid"></association>&ndash;&gt;-->
+<!--&lt;!&ndash;        </collection>&ndash;&gt;-->
+<!--      -->
+<!--    </resultMap>-->
 
 
-	<select id="getStastionListBy" resultType="com.jen.exceldevice.pojo.Stastion" parameterType="java.lang.Integer">
-		select * from tbl_stastion
-		<where>
-			<if test="project_id!= 0">
-				AND project_id = #{project_id,jdbcType=INTEGER}
-			</if>
-			<if test="name!= null">
-				AND name = #{name,jdbcType=VARCHAR}
-			</if>
-		</where>
+    <select id="getStastionListBy" resultType="com.jen.exceldevice.pojo.Stastion" parameterType="java.lang.Integer">
+        select * from tbl_stastion
+        <where>
+            <if test="project_id!= 0">
+                AND project_id = #{project_id,jdbcType=INTEGER}
+            </if>
+            <if test="name!= null">
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="getStastionList" resultType="com.jen.exceldevice.pojo.Stastion" parameterType="com.jen.exceldevice.pojo.Stastion">
+        select * from tbl_stastion
+        <where>
+            <if test="project_id!= 0">
+                AND project_id = #{project_id,jdbcType=INTEGER}
+            </if>
+            <if test="name!= null">
+                AND name = #{name,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="getStastionInnerAll" resultType="com.jen.exceldevice.pojo.Stastion">
+		select tbl_stastion.`name`
+         from tbl_stastion
+         INNER JOIN tbl_project
+         on tbl_project.id = tbl_stastion.project_id
 	</select>
 
-	<select id="getStastionList" resultType="com.jen.exceldevice.pojo.Stastion" parameterType="com.jen.exceldevice.pojo.Stastion">
-		select * from tbl_stastion
-		<where>
-			<if test="project_id!= 0">
-				AND project_id = #{project_id,jdbcType=INTEGER}
-			</if>
-			<if test="name!= null">
-				AND name = #{name,jdbcType=INTEGER}
-			</if>
-		</where>
-	</select>
-
-<insert id="insertStastion" parameterType="com.jen.exceldevice.pojo.Stastion">
+    <insert id="insertStastion" parameterType="com.jen.exceldevice.pojo.Stastion">
 	insert into tbl_stastion (project_id,name)
 	values(#{project_id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
 </insert>
 
 
-	<update id="updateStasttion" parameterType="com.jen.exceldevice.pojo.Stastion">
-		update tbl_stastion
-		<set>
-			<if test="name != null">
-				m_password = #{name,jdbcType=VARCHAR}
-			</if>
-		</set>
-		where id = #{id,jdbcType=INTEGER} and  project_id = #{project_id,jdbcType=INTEGER}
-	</update>
-
-
-
+    <update id="updateStasttion" parameterType="com.jen.exceldevice.pojo.Stastion">
+        update tbl_stastion
+        <set>
+            <if test="name != null">
+                m_password = #{name,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER} and project_id = #{project_id,jdbcType=INTEGER}
+    </update>
 
 
 </mapper>

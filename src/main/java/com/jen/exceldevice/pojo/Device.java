@@ -21,6 +21,44 @@ public class Device {
 
     private int parent_id = 0;
 
+    private Stastion stastion ;
+    private Drive drive;
+    private Link link;
+    private DeviceCategory deviceCategory;
+
+
+    public DeviceCategory getDeviceCategory() {
+        return deviceCategory;
+    }
+
+    public void setDeviceCategory(DeviceCategory deviceCategory) {
+        this.deviceCategory = deviceCategory;
+    }
+
+    public Stastion getStastion() {
+        return stastion;
+    }
+
+    public void setStastion(Stastion stastion) {
+        this.stastion = stastion;
+    }
+
+    public Drive getDrive() {
+        return drive;
+    }
+
+    public void setDrive(Drive drive) {
+        this.drive = drive;
+    }
+
+    public Link getLink() {
+        return link;
+    }
+
+    public void setLink(Link link) {
+        this.link = link;
+    }
+
     public Device() {
     }
 

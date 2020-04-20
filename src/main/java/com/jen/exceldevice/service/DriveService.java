@@ -10,4 +10,6 @@ public interface DriveService {
     List<Drive> getDriveListID(List<String> list);
 
     int insertDrive(Drive drive);
+
+    List<Drive> getDriveInnerAll();
 }

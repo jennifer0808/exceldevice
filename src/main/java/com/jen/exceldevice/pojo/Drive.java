@@ -8,6 +8,15 @@ public class Drive implements Serializable {
     private Integer project_id;
     private Integer stastion_id;
     private String protocol_name;
+    private Stastion stastion;
+
+    public Stastion getStastion() {
+        return stastion;
+    }
+
+    public void setStastion(Stastion stastion) {
+        this.stastion = stastion;
+    }
 
     public Drive(){}
 

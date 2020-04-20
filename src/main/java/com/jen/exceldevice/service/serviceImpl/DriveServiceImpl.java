@@ -30,4 +30,9 @@ public class DriveServiceImpl implements DriveService {
     public int insertDrive(Drive drive) {
         return baseDao.save("DriveMapper.insertDrive",drive);
     }
+
+    @Override
+    public List<Drive> getDriveInnerAll() {
+        return baseDao.getList("DriveMapper.getDriveInnerAll",null);
+    }
 }

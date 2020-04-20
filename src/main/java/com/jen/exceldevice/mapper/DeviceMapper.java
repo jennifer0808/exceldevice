@@ -19,4 +19,6 @@ public interface DeviceMapper  {
 
     int insertDevice(Device device);
 
+    List<Device> selectDeviceInnerAll();
+
 }

@@ -40,5 +40,10 @@ public class StastionServiceImpl implements StastionService {
         return count;
     }
 
+    @Override
+    public List<Stastion> getStastionInnerAll() {
+        return baseDao.getList("StastionMapper.getStastionInnerAll",null);
+    }
+
 
 }

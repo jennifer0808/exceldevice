@@ -12,6 +12,8 @@ public class Stastion implements Serializable {
     private String ipaddress;
     private Integer port;
 
+
+
     public Stastion(){}
 
     public Stastion(String name) {
@@ -39,10 +41,6 @@ public class Stastion implements Serializable {
         this.port = port;
     }
 
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public Integer getId() {
         return id;
