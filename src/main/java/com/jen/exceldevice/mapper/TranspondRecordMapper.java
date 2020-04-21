@@ -15,5 +15,7 @@ List<TranspondRecord>  selectByPage(@Param("limit")int limit , @Param("page")int
 
 int selectCount();
 
+TranspondRecord selectById(@Param("id") int id);
+
 
 }

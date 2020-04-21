@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class TranspondRecordController {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             List<TranspondRecord> transpondRecordList = transpondRecordService.findByPage(limit, page, keyWord);
-            logger.info(transpondRecordList.get(0).getContent());
+//            logger.info(transpondRecordList.get(0).getContent());
             int count = transpondRecordService.queryCount();
             map.put("code",0);
             map.put("msg","");
@@ -49,9 +50,14 @@ public class TranspondRecordController {
     }
 
 
-    @RequestMapping("contentDetails")
-    public String contentDetails(){
 
+    @RequestMapping("contentDetails")
+    public String contentDetails(@RequestParam(required=false,value = "id")int id, HttpServletRequest request){
+        System.err.println("id:"+id);
+
+        TranspondRecord transpondRecord = transpondRecordService.findById(id);
+        System.err.println("content:"+transpondRecord.getContent());
+        request.setAttribute("transpondRecord", transpondRecord);
         return "html/contentDetails";
     }
 

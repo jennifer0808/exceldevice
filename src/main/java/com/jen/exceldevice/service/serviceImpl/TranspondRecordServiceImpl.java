@@ -24,4 +24,9 @@ public class TranspondRecordServiceImpl implements TranspondRecordService {
     public int queryCount() {
         return transpondRecordMapper.selectCount();
     }
+
+    @Override
+    public TranspondRecord findById(int id) {
+        return transpondRecordMapper.selectById(id);
+    }
 }
