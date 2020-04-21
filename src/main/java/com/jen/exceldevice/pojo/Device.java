@@ -2,24 +2,24 @@ package com.jen.exceldevice.pojo;
 
 public class Device {
 
-    private int id;
-    private int project_id;
-    private int stastion_id;
-    private int drive_id;
-    private int link_id;
+    private Integer id;
+    private Integer project_id;
+    private Integer stastion_id;
+    private Integer drive_id;
+    private Integer link_id;
     private String name;
     private String describe;
     private String address;
-    private int start_period;
-    private int overtime_period;
+    private Integer start_period;
+    private Integer overtime_period;
     private String device_type_name;
     private String protocol_name;
     private String shsz_id;
-    private int category_id;
-    private int is_virtual;
-    private int is_highgather;
+    private Integer category_id;
+    private Integer is_virtual;
+    private Integer is_highgather;
 
-    private int parent_id = 0;
+    private Integer parent_id = 0;
 
     private Stastion stastion ;
     private Drive drive;

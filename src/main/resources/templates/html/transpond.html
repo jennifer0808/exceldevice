@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="lib/layui/css/layui.css" th:href="@{/lib/layui/css/layui.css}">
+</head>
+<body>
+
+
+<div class="layui-card-body">
+    <table class="layui-hide" id="test"></table>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-input-inline layui-form">
+            <select lay-filter="selected">
+                <option th:value="0">上海市政协议</option><!--默认为0-->
+                <option th:value="1">其他市政协议</option><!--为1-->
+            </select>
+        </div>
+    </script>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail" onclick="x_admin_show('查看','/contentDetails')" href="javascript:;">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script type="text/html" id="formatTpl">
+    <textarea id="{{d.id}}" style="width: 100%;border:none; resize:none" > {{d.content}} </textarea>
+</script>
+
+
+<script src="js/jquery.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="lib/layui/layui.js" th:src="@{/lib/layui/layui.js}"></script>
+<script type="text/javascript" src="../js/xadmin.js" th:href="@{/js/xadmin.js}"></script>
+<script>
+
+    layui.use(['form', 'table', 'layer', 'jquery'], function () {
+        var kw = 0;//type
+        addData(kw);
+
+        var form = layui.form;
+        form.on('select(selected)', function (data) {
+            if (data.value == '0') {
+                var kw = 0;//type
+                alert("kw0:"+kw);
+                addData(kw);
+            } else if (data.value == '1') {
+                var kw = 1;//type
+                alert("kw1:"+kw);
+                addData(kw);
+            }
+        });
+
+
+
+    });
+
+    function addData(kwx) {
+        var table = layui.table;
+        table.render({
+            elem: '#test'
+            , url: '../../showTranspondData?keyWord=' + kwx
+            , limit: 11 //默认为10
+            , cols: [
+                [
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'id', width: 80, title: 'ID', fixed: 'left'}
+                    , {field: 'building_id', width: 200, title: '楼栋编号'}
+                    , {field: '', title: '转发内容', align: 'center', templet: '#formatTpl'}//content
+                    , {field: 'recordtime', width: 250, title: '转发记录时间'}
+                    , {field: 'result', width: 80, title: '返回结果'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    , {field: 'scope_stat', width: 100, title: '上传时段'}
+                    , {field: 'type', width: 80, title: '转发协议类型'}
+                    , {field: 'c_type', width: 80, title: '发送类型'}
+                    , {field: 'project_id', width: 80, title: '项目id'}
+                    , {fixed: 'right', width: 200, align: 'center', title: '操作', toolbar: '#barDemo'}
+
+                ]
+            ]
+            , page: true
+            , toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            , totalRow: true //开启合计行
+            , done: function (res, curr, count) {
+                //数据的回调用，可不写
+            }
+        });
+    }
+
+    $("#sear1").keyup(function (event) {
+        if (event.keyCode == 13) {
+            var keyWord = $("#sear1").val();
+            addData(keyWord);
+        }
+    });
+
+
+    //分页
+    // laypage.render({
+    //     elem: 'pageDemo' //分页容器的id
+    //     ,count: 20 //数据总数，从服务端得到
+    //     ,skin: '#1E9FFF' //自定义选中色值
+    //     ,prev:'<span></span>'
+    //     ,next:'<span></span>'
+    //     ,layout:['count','prev','page','next','limit','skip']
+    //     ,jump: function(obj, first){
+    //         //obj包含了当前分页的所有参数，比如：
+    //         console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+    //         console.log(obj.limit); //得到每页显示的条数
+    //
+    //         //首次不执行
+    //         if(!first){
+    //             layer.msg('第'+ obj.curr +'页', {offset: 'b'});
+    //         }
+    //     }
+    // });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jen.exceldevice.mapper.TranspondRecordMapper">
+
+    <!--describe关键字 -->
+    <sql id="Base_Column_List">
+        id ,building_id,content,recordtime,result,scope_stat,type,c_type,project_id
+    </sql>
+
+    <!--分页查询-->
+    <select id="selectByPage" resultType="com.jen.exceldevice.pojo.TranspondRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_transpond_record where
+<!--        <if test='keyWord==0 or keyWord==1'>-->
+            type = ${keyWord}
+<!--        </if>-->
+        <if test="page!=null and limit!=null">
+            limit #{page},#{limit}
+        </if>
+
+    </select>
+
+    <!--查询总数-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(*) from tbl_transpond_record
+    </select>
+
+
+</mapper>

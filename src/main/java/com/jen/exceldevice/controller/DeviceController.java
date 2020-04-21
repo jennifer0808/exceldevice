@@ -50,6 +50,8 @@ public class DeviceController {
         return "html/testexcel";
     }
 
+
+
     @ResponseBody
     @RequestMapping("showData")
     public Map<String, Object> StudentManagerPage(
@@ -70,6 +72,7 @@ public class DeviceController {
         }
         return map;
     }
+
 
 
     //导出
@@ -188,8 +191,6 @@ public class DeviceController {
        }
 
     }
-
-
 
     //sheet2
     public void writeExcelSheet2(SXSSFSheet sheet2, CellStyle cellStyle) {
