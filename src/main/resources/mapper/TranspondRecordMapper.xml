@@ -8,14 +8,14 @@
         id ,building_id,content,recordtime,result,scope_stat,type,c_type,project_id
     </sql>
 
-    <!--分页查询-->
+    <!--倒叙分页查询-->
     <select id="selectByPage" resultType="com.jen.exceldevice.pojo.TranspondRecord">
         select
         <include refid="Base_Column_List"/>
         from tbl_transpond_record where
             type = ${keyWord}
         <if test="page!=null and limit!=null">
-            limit #{page},#{limit}
+            ORDER BY id desc limit #{page},#{limit}
         </if>
 
     </select>

@@ -141,7 +141,7 @@ public class DeviceController {
             cell.setCellStyle(cellStyle);
         }
 
-        //读站点行
+        //读驱动行
         row = sheet1.createRow(2);
 
         headCell = row.createCell(0);
@@ -157,7 +157,7 @@ public class DeviceController {
             cell.setCellStyle(cellStyle);
         }
 
-        //导入驱动行
+        //导入链路行
         row = sheet1.createRow(3);
 
         headCell = row.createCell(0);

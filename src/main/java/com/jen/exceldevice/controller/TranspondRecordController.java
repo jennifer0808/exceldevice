@@ -2,6 +2,7 @@ package com.jen.exceldevice.controller;
 
 import com.jen.exceldevice.pojo.TranspondRecord;
 import com.jen.exceldevice.service.TranspondRecordService;
+import com.jen.exceldevice.utils.XMLParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,15 +53,28 @@ public class TranspondRecordController {
 
 
     @RequestMapping("contentDetails")
-    public String contentDetails(@RequestParam(required=false,value = "id")int id, HttpServletRequest request){
-        System.err.println("id:"+id);
-
+    public String contentDetails(@RequestParam(required=false,value = "id")int id, HttpServletRequest request,Map<String,Object> map){
         TranspondRecord transpondRecord = transpondRecordService.findById(id);
-        System.err.println("content:"+transpondRecord.getContent());
         request.setAttribute("transpondRecord", transpondRecord);
+        //xml解析
+        if(transpondRecord.getContent()!=null){
+         map =  XMLParseUtils.ContentParse(transpondRecord.getContent());
+            map.put("a",map.get("10000"));
+            map.put("b",map.get("10A00"));
+            map.put("c",map.get("10B00"));
+            map.put("d",map.get("10C00"));
+            map.put("e",map.get("10D00"));
+
+    }
+
         return "html/contentDetails";
     }
 
+
+    @RequestMapping("testxml")
+    public String processXml(){
+        return "html/testxml";
+    }
 
 
 }
