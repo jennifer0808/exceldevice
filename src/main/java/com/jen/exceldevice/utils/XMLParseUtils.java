@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class XMLParseUtils {
 
-    public static Map<String, Object> ContentParse(String content) {
+    public static Map<String, String> ContentParse(String content) {
         System.err.println("content:" + content);
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         try {
             //Document接收
             Document document = DocumentHelper.parseText(content);

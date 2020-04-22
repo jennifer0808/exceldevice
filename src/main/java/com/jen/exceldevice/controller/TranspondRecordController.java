@@ -24,7 +24,7 @@ public class TranspondRecordController {
     private TranspondRecordService transpondRecordService;
 
     @RequestMapping("/transpond")
-    public String transpond(){
+    public String transpond() {
         return "html/transpond";
     }
 
@@ -32,47 +32,45 @@ public class TranspondRecordController {
     @RequestMapping("showTranspondData")
     public Map<String, Object> StudentManagerPage(
             @RequestParam(required = false, defaultValue = "15") int limit,
-            @RequestParam(required = false,defaultValue = "1") int page,
-           @RequestParam(required=false,value = "keyWord") int keyWord){
-        System.err.println("keyWord:"+keyWord);
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, value = "keyWord") int keyWord) {
+        System.err.println("keyWord:" + keyWord);
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             List<TranspondRecord> transpondRecordList = transpondRecordService.findByPage(limit, page, keyWord);
 //            logger.info(transpondRecordList.get(0).getContent());
             int count = transpondRecordService.queryCount();
-            map.put("code",0);
-            map.put("msg","");
-            map.put("count",count);
-            map.put("data",transpondRecordList);
-        }catch (Exception e){
-            logger.error("transpondRecord分页异常:",e.getMessage());
+            map.put("code", 0);
+            map.put("msg", "");
+            map.put("count", count);
+            map.put("data", transpondRecordList);
+        } catch (Exception e) {
+            logger.error("transpondRecord分页异常:", e.getMessage());
         }
         return map;
     }
 
 
-
     @RequestMapping("contentDetails")
-    public String contentDetails(@RequestParam(required=false,value = "id")int id, HttpServletRequest request,Map<String,Object> map){
+    public String contentDetails(@RequestParam(required = false, value = "id") int id, HttpServletRequest request, Map<String, String> map) {
         TranspondRecord transpondRecord = transpondRecordService.findById(id);
         request.setAttribute("transpondRecord", transpondRecord);
         //xml解析
-        if(transpondRecord.getContent()!=null){
-         map =  XMLParseUtils.ContentParse(transpondRecord.getContent());
-            map.put("a",map.get("10000"));
-            map.put("b",map.get("10A00"));
-            map.put("c",map.get("10B00"));
-            map.put("d",map.get("10C00"));
-            map.put("e",map.get("10D00"));
-
-    }
+        if (transpondRecord.getContent() != null) {
+            Map<String, String> map2 = XMLParseUtils.ContentParse(transpondRecord.getContent());
+            map.put("a", map2.get("10000"));
+            map.put("b", map2.get("10A00"));
+            map.put("c", map2.get("10B00"));
+            map.put("d", map2.get("10C00"));
+            map.put("e", map2.get("10D00"));
+        }
 
         return "html/contentDetails";
     }
 
 
     @RequestMapping("testxml")
-    public String processXml(){
+    public String processXml() {
         return "html/testxml";
     }
 
