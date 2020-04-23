@@ -9,6 +9,7 @@
 
 
 <div class="layui-card-body">
+
     <table class="layui-hide" id="test"></table>
     <script type="text/html" id="toolbarDemo">
         <div class="layui-input-inline layui-form">
@@ -18,6 +19,7 @@
             </select>
         </div>
     </script>
+
 </div>
 
 <script type="text/html" id="barDemo">
@@ -28,7 +30,7 @@
 </script>
 
 <script type="text/html" id="formatTpl">
-    <textarea id="{{d.id}}" style="width: 100%;border:none; resize:none" > {{d.content}} </textarea>
+    <textarea id="{{d.id}}" style="width: 100%;border:none; resize:none"> {{d.content}} </textarea>
 </script>
 
 
@@ -37,11 +39,9 @@
 <script type="text/javascript" src="../js/xadmin.js" th:href="@{/js/xadmin.js}"></script>
 <script>
 
-    layui.use(['form', 'table', 'layer', 'jquery'], function () {
-
+    layui.use(['form', 'table', 'layer', 'laypage', 'jquery'], function () {
         var kw = 0;//type
         addData(kw);
-
         var form = layui.form;
         form.on('select(selected)', function (data) {
             if (data.value == '0') {
@@ -55,7 +55,11 @@
             }
         });
 
+
     });
+
+
+
 
     function addData(kwx) {
         var table = layui.table;
@@ -93,32 +97,31 @@
     }
 
 
-    function Format(datetime,fmt) {
-        if (parseInt(datetime)==datetime) {
-            if (datetime.length==10) {
-                datetime=parseInt(datetime)*1000;
-            } else if(datetime.length==13) {
-                datetime=parseInt(datetime);
+    function Format(datetime, fmt) {
+        if (parseInt(datetime) == datetime) {
+            if (datetime.length == 10) {
+                datetime = parseInt(datetime) * 1000;
+            } else if (datetime.length == 13) {
+                datetime = parseInt(datetime);
             }
         }
-        datetime=new Date(datetime);
+        datetime = new Date(datetime);
         var o = {
-            "M+" : datetime.getMonth()+1,                 //月份
-            "d+" : datetime.getDate(),                    //日
-            "H+" : datetime.getHours(),                   //小时
-            "m+" : datetime.getMinutes(),                 //分
-            "s+" : datetime.getSeconds(),                 //秒
-            "q+" : Math.floor((datetime.getMonth()+3)/3), //季度
-            "S"  : datetime.getMilliseconds()             //毫秒
+            "M+": datetime.getMonth() + 1,                 //月份
+            "d+": datetime.getDate(),                    //日
+            "H+": datetime.getHours(),                   //小时
+            "m+": datetime.getMinutes(),                 //分
+            "s+": datetime.getSeconds(),                 //秒
+            "q+": Math.floor((datetime.getMonth() + 3) / 3), //季度
+            "S": datetime.getMilliseconds()             //毫秒
         };
-        if(/(y+)/.test(fmt))
-            fmt=fmt.replace(RegExp.$1, (datetime.getFullYear()+"").substr(4 - RegExp.$1.length));
-        for(var k in o)
-            if(new RegExp("("+ k +")").test(fmt))
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (datetime.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
     }
-
 
 
     $("#sear1").keyup(function (event) {
