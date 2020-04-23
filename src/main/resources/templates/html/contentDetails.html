@@ -93,7 +93,7 @@
 </div>
 <script>
 
-    layui.use(['form', 'layer'], function () {
+    layui.use(['jquery', 'layer'], function () {
         showXml();
     });
 
@@ -110,7 +110,7 @@
         {
             var ret = '<!--' + escape(text) + '-->';
             return ret;
-        }).replace(/\r /g, '\n');
+        }) .replace(/\r /g, '\n');
         //调整格式
         var rgx = /\n(<(([^\?]).+?)(?:\s|\s*?>|\s*?(\/)>)(?:.*?(?:(?:(\/)>)|(?:<(\/)\2>)))?)/mg;
         var nodeStack = [];

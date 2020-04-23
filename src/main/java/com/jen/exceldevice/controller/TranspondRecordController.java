@@ -35,10 +35,9 @@ public class TranspondRecordController {
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, value = "keyWord") int keyWord) {
         System.err.println("keyWord:" + keyWord);
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         try {
             List<TranspondRecord> transpondRecordList = transpondRecordService.findByPage(limit, page, keyWord);
-//            logger.info(transpondRecordList.get(0).getContent());
             int count = transpondRecordService.queryCount();
             map.put("code", 0);
             map.put("msg", "");
@@ -64,7 +63,6 @@ public class TranspondRecordController {
             map.put("d", map2.get("10C00"));
             map.put("e", map2.get("10D00"));
         }
-
         return "html/contentDetails";
     }
 
