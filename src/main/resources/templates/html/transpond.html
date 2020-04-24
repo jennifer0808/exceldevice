@@ -46,13 +46,7 @@
         var form = layui.form;
         addData(0);
         form.on('select(selected)', function (data) {
-            if (data.value == '0') {
-                var kw = 0;//type
-                addDataReload(kw);
-            } else if (data.value == '1') {
-                var kw = 1;//type
-                addDataReload(kw);
-            }
+            addDataReload(data.value);
         });
 
     });
