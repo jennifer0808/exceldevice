@@ -58,7 +58,6 @@ public class DeviceController {
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "15") int limit,
             String sUsername) {
-//        System.out.println("sUsername:" + sUsername);
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             List<Device> deviceList = deviceService.findByPage(page, limit, sUsername);
