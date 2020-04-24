@@ -13,7 +13,7 @@ public interface TranspondRecordMapper {
 
 List<TranspondRecord>  selectByPage(@Param("limit")int limit , @Param("page")int page,@Param("keyWord")int keyWord);
 
-int selectCount();
+int selectCount(@Param("keyWord")int keyWord);
 
 TranspondRecord selectById(@Param("id") int id);
 

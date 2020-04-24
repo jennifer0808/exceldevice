@@ -38,7 +38,7 @@ public class TranspondRecordController {
         Map<String, Object> map = new HashMap<>();
         try {
             List<TranspondRecord> transpondRecordList = transpondRecordService.findByPage(limit, page, keyWord);
-            int count = transpondRecordService.queryCount();
+            int count = transpondRecordService.queryCount(keyWord);
             map.put("code", 0);
             map.put("msg", "");
             map.put("count", count);
@@ -65,7 +65,6 @@ public class TranspondRecordController {
         }
         return "html/contentDetails";
     }
-
 
     @RequestMapping("testxml")
     public String processXml() {

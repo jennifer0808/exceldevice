@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TranspondRecordService {
     List<TranspondRecord> findByPage(int limit,int page,int keyWord);
-    int queryCount();
+    int queryCount(int keyWord);
     TranspondRecord findById(int id);
 }

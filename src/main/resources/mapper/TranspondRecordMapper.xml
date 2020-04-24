@@ -22,7 +22,7 @@
 
     <!--查询总数-->
     <select id="selectCount" resultType="java.lang.Integer">
-        select count(*) from tbl_transpond_record
+        select count(*) from tbl_transpond_record where  type = ${keyWord}
     </select>
 
     <!--根据id查询-->
