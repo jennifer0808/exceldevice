@@ -50,6 +50,10 @@ public class DeviceController {
         return "html/testexcel";
     }
 
+    @RequestMapping("/select")
+    public String select() {
+        return "html/select";
+    }
 
 
     @ResponseBody
