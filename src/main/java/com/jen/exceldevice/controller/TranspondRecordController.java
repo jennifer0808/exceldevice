@@ -34,7 +34,6 @@ public class TranspondRecordController {
             @RequestParam(required = false, defaultValue = "15") int limit,
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, value = "keyWord") int keyWord) {
-        System.err.println("keyWord:" + keyWord);
         Map<String, Object> map = new HashMap<>();
         try {
             List<TranspondRecord> transpondRecordList = transpondRecordService.findByPage(limit, page, keyWord);
