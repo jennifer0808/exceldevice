@@ -27,8 +27,8 @@ public class GlobalConstants {
     public static String deviceLinkName = null;
     public static String deviceTypeName = null;
     public static  String deviceCategoryShszCode = null;
-    public static  Integer deviceOvertime = null;
-    public static Integer deviceIsvirtual = null;
+    public static  Integer deviceOvertime = 0;
+    public static Integer deviceIsvirtual = 0;
     public static  String deviceShszId = null;
 
 

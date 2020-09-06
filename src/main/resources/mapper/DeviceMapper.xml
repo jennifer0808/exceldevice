@@ -5,7 +5,7 @@
 
     <!--describe关键字 -->
     <sql id="Base_Column_List">
-        id,project_id,stastion_id,drive_id,link_id,name,`describe`,address,start_period,overtime_period,device_type_name,protocol_name,shsz_id,category_id,is_virtual,is_highgather
+        id,project_id,stastion_id,drive_id,link_id,`name`,`describe`,address,start_period,overtime_period,device_type_name,protocol_name,shsz_id,category_id,is_virtual,is_highgather
     </sql>
 
     <!--分页查询-->
@@ -155,7 +155,9 @@
             <if test="category_id != 0">
                 category_id,
             </if>
+            <if test="is_virtual != 0 or is_virtual == 0">
                 is_virtual,
+            </if>
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">

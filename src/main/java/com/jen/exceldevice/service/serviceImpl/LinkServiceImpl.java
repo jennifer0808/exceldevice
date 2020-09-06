@@ -153,20 +153,21 @@ public class LinkServiceImpl implements LinkService {
                 System.out.println("idStr:" + stastion_id + "," + drive_id + "," + link_id);
 
 //todo
-//                deviceService.saveDevice(
-//                        new Device(project_id,
-//                                stastion_id,
-//                                drive_id,
-//                                link_id,
-//                                GlobalConstants.deviceName,
-//                                GlobalConstants.deviceDescribe,
-//                                GlobalConstants.deviceAddress,
-//                                GlobalConstants.deviceOvertime,
-//                                GlobalConstants.deviceTypeName,
-//                                GlobalConstants.deviceDriveProtocolName,
-//                                GlobalConstants.deviceShszId,
-//                                category_id,
-//                                GlobalConstants.deviceIsvirtual));
+
+                deviceService.saveDevice(
+                        new Device(project_id,
+                                stastion_id,
+                                drive_id,
+                                link_id,
+                                GlobalConstants.deviceName,
+                                GlobalConstants.deviceDescribe,
+                                GlobalConstants.deviceAddress,
+                                GlobalConstants.deviceOvertime,
+                                GlobalConstants.deviceTypeName,
+                                GlobalConstants.deviceDriveProtocolName,
+                                GlobalConstants.deviceShszId,
+                                category_id,
+                                GlobalConstants.deviceIsvirtual));
 
             } else {
                 logger.error("匹配获取不到ID！无法导入device表！");
