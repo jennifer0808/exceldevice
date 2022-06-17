@@ -82,7 +82,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.31</version>
+            <version>1.2.83</version>
         </dependency>
 
         <!-- xls格式excel依赖包 必须与xlsx依赖版本号一致 -->
